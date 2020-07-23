@@ -6,7 +6,9 @@ namespace AnagramSolver.BusinessLogic
 {
     public static class Configurations
     {
-        public static int NumberOfAnagrams { get; set; }
+        public static int MaxNumberOfAnagrams { get; set; }
         public static int MinInputWordLength { get; set; }
+
+        public static int MinNumberOfAnagrams { get; set; }
     }
 }
