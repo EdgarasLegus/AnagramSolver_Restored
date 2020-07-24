@@ -84,6 +84,19 @@ namespace AnagramSolver.BusinessLogic
             return myList;
         }
 
+        public static int CountChars(string input)
+        {
+            // Pavertimas i char lista
+            List<char> charlist = new List<char>();
+            charlist.AddRange(input);
+
+            // CharListo characteriu skaiciavimas
+            char[] characters = input.ToCharArray();
+            int charCount = input.Count(c => !Char.IsWhiteSpace(c));
+
+            return charCount;
+        }
+
     }
 
 
