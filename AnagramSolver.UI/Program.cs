@@ -22,6 +22,7 @@ namespace AnagramSolver.UI
             // Konfiguracijos, skaiciaus istraukimas
             var configuration = new ConfigurationBuilder().AddJsonFile(@"./appsettings.json").Build();
             var firstConfig = configuration["Settings:minInputWordLength"];
+            var secondConfig = configuration["Settings:MaxNumberOfAnagrams"];
             var firstConfigAsInt = Int32.Parse(firstConfig);
 
 
