@@ -5,6 +5,11 @@ namespace AnagramSolver.Interfaces
 {
     public interface IAnagramSolver
     {
-        IList<string> GetAnagrams(string myWords);
+        // Padaryta - IList pakeista i IEnumerable 
+        //IList<string> GetAnagrams(string myWords);
+        //PRidet CountChars
+        IEnumerable<string> GetAnagrams(string myWords);
+        int CountChars(string input);
+        string SortByAlphabet(string input);
     }
 }

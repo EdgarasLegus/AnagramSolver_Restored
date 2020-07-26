@@ -1,27 +1,79 @@
-﻿using AnagramSolver.Contracts;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Runtime.ExceptionServices;
-using AnagramSolver;
 using AnagramSolver.Interfaces;
+using AnagramSolver.Repos;
 
 namespace AnagramSolver.BusinessLogic
 {
-
-
     public class AnagramSolver : Interfaces.IAnagramSolver
     {
-        const string path = @"./zodynas.txt";
+        // TESTAS 
+        // ++++ ISKELTI I JSON 
+        // TESTAMS KITAS JSONAS
+        // ar gerai nuskaitomas failas
+        // where select 
+        // ASP .NET MVC - kita tema
+
+        private Dictionary<string, string> _createdDictionary;
+
 
         public IWordRepository FRepository { get; set; }
 
-        // Metodas - žodžio sortinimas pagal abeceles tvarka
+        public AnagramSolver()
+        {
+            var repository = new FRepository();
+            // 1 zingsnis --- Gauname failo pirmuosius 2 stulpelius
+            var fileColumns = repository.GetWords();
 
-        public static string SortByAlphabet(string inputWord)
+            // 2 zingsnis -- Zodyno sudarymas
+            _createdDictionary = MakeDictionary(fileColumns);
+        }
+
+    //BUVO public IList<string> GetAnagrams(string myWords)
+    public IEnumerable<string> GetAnagrams(string myWords)
+        {
+
+            //
+            // 1 - Failo pirmieji 2 stulpeliai
+            // -----VAR
+            // Kiekviena karta ne kolint idet 
+            //Dictionary<string, string> fileColumns = FRepository.GetWords();
+
+            // 2 - Sudarytas žodynas
+            //Dictionary<string, string> createdDictionary = MakeDictionary(fileColumns);
+
+            // NEREIKES EILUTES
+            //var convertedDictionary = createdDictionary.ToList();
+
+            // 3 - Išrušiuotas įvesties žodis
+            var mySortedInputWord = SortByAlphabet(myWords);
+
+            // 4 - Anagramų sudarymas
+            var anagrams = _createdDictionary
+                .Where(kvp => kvp.Value.Equals(mySortedInputWord))
+                .Select(kvp => kvp.Key);
+
+
+            //ISIMTA ---- IList<string> myList = anagrams.ToList();
+            return anagrams;
+        }
+
+        //private Dictionary<string, string> dictionary;
+        // private IWordRepository _repository; -- nereikia
+
+        //public AnagramSolver()
+        //{
+        //   var temp = FRepository.GetWords();
+        //MakeDictionary
+        //   // new FRepository
+        //}
+
+        // CIA GET WORDS
+        // 3,4 
+
+        // Metodas - žodžio sortinimas pagal abeceles tvarka
+        public string SortByAlphabet(string inputWord)
         {
             char[] convertedToChar = inputWord.ToCharArray();
             Array.Sort(convertedToChar);
@@ -30,7 +82,8 @@ namespace AnagramSolver.BusinessLogic
         }
 
         // 222222 ----------------------
-        public static Dictionary<string, string> MakeDictionary(Dictionary<string, string> dictionary)
+        // STATIC VENGTI 
+        private Dictionary<string, string> MakeDictionary(Dictionary<string, string> dictionary)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
@@ -44,11 +97,8 @@ namespace AnagramSolver.BusinessLogic
                 sortedPart = SortByAlphabet(firstColumn[i]);
                 sortedWords.Add(sortedPart);
             }
-
             //Žodyno sudarymas
-
             Dictionary<string, string> myDictionary = new Dictionary<string, string>();
-
 
             for (int i = 0; i < firstColumn.Count; i++)
             {
@@ -64,29 +114,14 @@ namespace AnagramSolver.BusinessLogic
             return myDictionary;
         }
 
-        public IList<string> GetAnagrams(string myWords)
-        {
-            // 1 - Failo pirmieji 2 stulpeliai
-            Dictionary<string, string> fileColumns = FRepository.GetWords();
+        // KINTAMUJU PAVADINIMAS
+        // IEnumerable 
 
-            // 2 - Sudarytas žodynas
-            Dictionary<string, string> createdDictionary = MakeDictionary(fileColumns);
-            var convertedDictionary = createdDictionary.ToList();
-
-            // 3 - Išrušiuotas įvesties žodis
-            var mySortedInputWord = SortByAlphabet(myWords);
-
-            // 4 - Anagramų sudarymas
-            var anagrams = convertedDictionary.Where(kvp => kvp.Value.Equals(mySortedInputWord)).Select(kvp => kvp.Key);
-
-
-            IList<string> myList = anagrams.ToList();
-            return myList;
-        }
-
-        public static int CountChars(string input)
+        //BUVO public static int
+        public int CountChars(string input)
         {
             // Pavertimas i char lista
+            // GALIM PRATRINT, TIK RETURN
             List<char> charlist = new List<char>();
             charlist.AddRange(input);
 
