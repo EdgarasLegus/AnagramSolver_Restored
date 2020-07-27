@@ -10,6 +10,7 @@ namespace AnagramSolver.Interfaces
         //PRidet CountChars
         IEnumerable<string> GetAnagrams(string myWords);
         int CountChars(string input);
-        string SortByAlphabet(string input);
+        string SortByAlphabet(string inputWord);
+        Dictionary<string, string> MakeDictionary(Dictionary<string, string> dictionary);
     }
 }

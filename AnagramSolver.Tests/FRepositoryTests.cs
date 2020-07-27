@@ -13,30 +13,30 @@ namespace AnagramSolver.Tests
     [TestFixture]
     public class FRepositoryTests
     {
-        //private IWordRepository _wordRepository;
+        private IWordRepository _wordRepository;
 
         [SetUp]
         public void Setup()
         {
-            //_wordRepository = new FRepository();
+            _wordRepository = new FRepository();
         }
 
         [Test]
         public void TestIfConfigurationHasFileName()
         {
             //Arrange
-            //var configuration = new ConfigurationBuilder()
-              //.AddJsonFile(@"./test.json")
-              //.Build();
+            var configuration = new ConfigurationBuilder()
+              .AddJsonFile(@"./appsettings.json")
+              .Build();
 
-            //Configurations.FileName = configuration["Settings:FileName"];
+            Contracts.ConfigurationConstants.FileName = configuration["Settings:FileName"];
 
             //var path = configuration["Settings:FileName"];
 
             //Act & Assert
-            //Assert.Throws<Exception>(() => _wordRepository.GetWords());
+            Assert.Throws<Exception>(() => _wordRepository.GetWords());
 
-            Assert.Pass();
+            //Assert.Pass();
         }
     }
 }

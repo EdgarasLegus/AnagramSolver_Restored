@@ -1,0 +1,7 @@
+garvežys	dkt	garvežys	1
+GAS	akronim	GAS	1
+Gastejevas	tikr. dkt	Gastejevas	2
+Gastejevas	tikr. dkt	Gastejevo	1
+gastroduodeninis	bdv	gastroduodeniniam	1
+gastroduodenofibroskopas	dkt	gastroduodenofibroskopu	1
+gastroduodenofibroskopija	dkt	gastroduodenofibroskopijai	2

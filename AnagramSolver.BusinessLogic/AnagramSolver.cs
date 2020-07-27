@@ -9,14 +9,9 @@ namespace AnagramSolver.BusinessLogic
     public class AnagramSolver : Interfaces.IAnagramSolver
     {
         // TESTAS 
-        // ++++ ISKELTI I JSON 
-        // TESTAMS KITAS JSONAS
         // ar gerai nuskaitomas failas
-        // where select 
-        // ASP .NET MVC - kita tema
 
         private Dictionary<string, string> _createdDictionary;
-
 
         public IWordRepository FRepository { get; set; }
 
@@ -30,11 +25,9 @@ namespace AnagramSolver.BusinessLogic
             _createdDictionary = MakeDictionary(fileColumns);
         }
 
-    //BUVO public IList<string> GetAnagrams(string myWords)
     public IEnumerable<string> GetAnagrams(string myWords)
         {
 
-            //
             // 1 - Failo pirmieji 2 stulpeliai
             // -----VAR
             // Kiekviena karta ne kolint idet 
@@ -42,9 +35,6 @@ namespace AnagramSolver.BusinessLogic
 
             // 2 - Sudarytas žodynas
             //Dictionary<string, string> createdDictionary = MakeDictionary(fileColumns);
-
-            // NEREIKES EILUTES
-            //var convertedDictionary = createdDictionary.ToList();
 
             // 3 - Išrušiuotas įvesties žodis
             var mySortedInputWord = SortByAlphabet(myWords);
@@ -54,25 +44,14 @@ namespace AnagramSolver.BusinessLogic
                 .Where(kvp => kvp.Value.Equals(mySortedInputWord))
                 .Select(kvp => kvp.Key);
 
-
-            //ISIMTA ---- IList<string> myList = anagrams.ToList();
             return anagrams;
         }
-
-        //private Dictionary<string, string> dictionary;
-        // private IWordRepository _repository; -- nereikia
-
-        //public AnagramSolver()
-        //{
-        //   var temp = FRepository.GetWords();
-        //MakeDictionary
-        //   // new FRepository
-        //}
 
         // CIA GET WORDS
         // 3,4 
 
         // Metodas - žodžio sortinimas pagal abeceles tvarka
+
         public string SortByAlphabet(string inputWord)
         {
             char[] convertedToChar = inputWord.ToCharArray();
@@ -82,8 +61,7 @@ namespace AnagramSolver.BusinessLogic
         }
 
         // 222222 ----------------------
-        // STATIC VENGTI 
-        private Dictionary<string, string> MakeDictionary(Dictionary<string, string> dictionary)
+        public Dictionary<string, string> MakeDictionary(Dictionary<string, string> dictionary)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
 
@@ -117,22 +95,12 @@ namespace AnagramSolver.BusinessLogic
         // KINTAMUJU PAVADINIMAS
         // IEnumerable 
 
-        //BUVO public static int
         public int CountChars(string input)
         {
-            // Pavertimas i char lista
-            // GALIM PRATRINT, TIK RETURN
-            List<char> charlist = new List<char>();
-            charlist.AddRange(input);
-
             // CharListo characteriu skaiciavimas
             char[] characters = input.ToCharArray();
             int charCount = input.Count(c => !Char.IsWhiteSpace(c));
-
             return charCount;
         }
-
     }
-
-
 }

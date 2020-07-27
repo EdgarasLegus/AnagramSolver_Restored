@@ -7,31 +7,27 @@ namespace AnagramSolver.BusinessLogic
 {
     public class Configurations
     {
-        public static int MaxNumberOfAnagrams { get; set; }
-        public static int MinInputWordLength { get; set; }
-        public static int MinNumberOfAnagrams { get; set; }
-        public static string FileName { get; set; }
 
-        private IConfigurationRoot _configuration;
+        //private IConfigurationRoot _configuration;
 
-        public Configurations()
-        {
-            _configuration = new ConfigurationBuilder()
-                .AddJsonFile(@"./appsettings.json")
-                .Build();
-        }
+        //public Configurations()
+        //{
+         //   _configuration = new ConfigurationBuilder()
+          //      .AddJsonFile(@"./appsettings.json")
+           //     .Build();
+        //}
 
         public void AnagramValidator(IList<string> anagrams)
         {
-            //var configuration = new ConfigurationBuilder()
-            //.AddJsonFile(@"./appsettings.json")
-            //.Build();
+            var configuration = new ConfigurationBuilder()
+            .AddJsonFile(@"./appsettings.json")
+            .Build();
 
             //var thirdConfig = configuration["Settings:MinNumberOfAnagrams"];
 
             //!!!!!!!!!! TryParse 
 
-            var MaxNumberOfAnagrams = Int32.Parse(_configuration["Settings:MaxNumberOfAnagrams"]);
+            var MaxNumberOfAnagrams = Int32.Parse(configuration["Settings:MaxNumberOfAnagrams"]);
 
             if (anagrams.Count > MaxNumberOfAnagrams)
             {

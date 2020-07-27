@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AnagramSolver.Contracts;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -12,25 +13,32 @@ namespace AnagramSolver.Repos
         // Isnesame configuration is metodo ribu, kad galima butu keisti
 
         //private readonly IConfigurationRoot _configuration = new ConfigurationBuilder().AddJsonFile(@"./appsettings.json").Build();
-        public IConfigurationRoot _configuration;
+        //public IConfigurationRoot _configuration;
 
-        public FRepository()
-        {
-            _configuration = new ConfigurationBuilder()
-                .AddJsonFile(@"./appsettings.json")
-               .Build();
-        }
+        //private IConfigurationRoot _configuration;
+
+        //public FRepository()
+        //{
+        //    _configuration = new ConfigurationBuilder()
+         //       .AddJsonFile(@"./appsettings.json", optional: true)
+          //     .Build();
+        //}
 
         //const string path = @"./zodynas.txt";
         // ---- 1111111 Pirmojo ir antrojo stulpelio gavimas is failo
         public Dictionary<string, string> GetWords()
         {
 
-            //_configuration = new ConfigurationBuilder()
-            //  .AddJsonFile(@"./appsettings.json")
-            //  .Build();
+             var configuration = new ConfigurationBuilder()
+               .AddJsonFile(@"./appsettings.json")
+               .Build();
+           // var configuration = Contracts.ConfigurationConstants.ConfBuilder;
 
-            var path = _configuration["Settings:FileName"];
+            //Contracts.ConfigurationConstants.FileName = _configuration["Settings:FileName"];
+
+            //var path = ConfigurationConstants.FileName;
+            var path = configuration["Settings:FileName"];
+            //var path = configuration[Contracts.ConfigurationConstants.FileName];
             // = _configuration["Settings:FileName"];
 
             if (!File.Exists(path))
