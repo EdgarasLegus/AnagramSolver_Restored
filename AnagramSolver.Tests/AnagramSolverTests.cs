@@ -101,12 +101,9 @@ namespace AnagramSolver.Tests
         {
             //Act
             IEnumerable<string> output = _anagramSolver.GetAnagrams(inputWord);
-            //string outputToString = string.Join('\n', output);
-
-            var IfContain = output.Contains(expectedAnagram);
 
             //Assert
-            Assert.IsTrue(IfContain);
+            CollectionAssert.Contains(output, expectedAnagram);
         }
     }
 }
