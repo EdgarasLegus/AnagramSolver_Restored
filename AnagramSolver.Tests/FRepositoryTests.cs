@@ -12,7 +12,6 @@ using NUnit.Framework;
 
 namespace AnagramSolver.Tests
 {
-
     [TestFixture]
     public class FRepositoryTests
     {
@@ -25,46 +24,36 @@ namespace AnagramSolver.Tests
         }
 
         [Test]
-        public void TestIfConfigurationHasFileName()
+        public void TestIfFileExists()
         {
             //Arrange
-            var configuration = new ConfigurationBuilder()
-              .AddJsonFile(@"./appsettings.json")
-              .Build();
-
-            Contracts.ConfigurationConstants.FileName = configuration["Settings:FileName"];
-
-            //var path = configuration["Settings:FileName"];
-
+            ConfigurationConstants.FileName = "test.txt";
             //Act & Assert
-            Assert.Throws<Exception>(() => _wordRepository.GetWords());
-
-            //Assert.Pass();
+            FileAssert.Exists(ConfigurationConstants.FileName);
         }
 
         [Test]
-        public void TestIfAllWordsArePickedUp()
+        public void TestIfAllWordsArePickedUpFromFile()
         {
             //Arrange
             Contracts.ConfigurationConstants.FileName = "test.txt";
-            int countme;
+            int actualCountOfWords;
             using (StreamReader reader = new StreamReader(ConfigurationConstants.FileName))
             {
                 string line;
                 int counter = 0;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    string word = line.Split('\t').ToList().First();
+                    string wordFromFirstColumn = line.Split('\t').ToList().First();
                     counter++;
                 }
-                countme = counter;
+                actualCountOfWords = counter;
             }
-
             // Act
             Dictionary<string, string> firstColumn = _wordRepository.GetWords();
 
             //Assert (starting from 0)
-            Assert.AreEqual(firstColumn.Count+1, countme);
+            Assert.AreEqual(firstColumn.Count+1, actualCountOfWords);
 
         }
     }

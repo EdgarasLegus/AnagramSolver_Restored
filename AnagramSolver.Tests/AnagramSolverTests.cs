@@ -17,7 +17,6 @@ namespace AnagramSolver.Tests
     {
         private IAnagramSolver _anagramSolver;
        
-
         [SetUp]
         public void Setup()
         {
@@ -75,7 +74,6 @@ namespace AnagramSolver.Tests
                 {"Atlantida", "tikr." },
                 {"14-15-tas", "sktv." }
             };
-
             var expectedOutputFromGivenColumns = new Dictionary<string, string>()
             {
                 {"Simonas", "Saimnos" },
@@ -84,15 +82,11 @@ namespace AnagramSolver.Tests
                 {"Atlantida", "Aaadilntt" },
                 {"14-15-tas", "--1145ast" }
             };
-
             //Act
             Dictionary<string, string> outputDictionary = _anagramSolver.MakeDictionary(testInputFromGivenColumns);
-
             //Assert
             Assert.AreEqual(expectedOutputFromGivenColumns, outputDictionary);
-
         }
-
 
         [TestCase("veidas","dievas")]
         [TestCase("ristas","rastis")]
@@ -101,7 +95,6 @@ namespace AnagramSolver.Tests
         {
             //Act
             IEnumerable<string> output = _anagramSolver.GetAnagrams(inputWord);
-
             //Assert
             CollectionAssert.Contains(output, expectedAnagram);
         }
