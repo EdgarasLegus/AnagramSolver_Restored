@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace AnagramSolver.Tests
 {
     [TestFixture]
-    public class ConfigurationsTests
+    public class ValidationTests
     {
         [SetUp]
         public void Setup()

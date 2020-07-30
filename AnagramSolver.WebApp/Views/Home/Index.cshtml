@@ -1,11 +1,112 @@
 ﻿@model IEnumerable<string>
 @{
-    ViewData["Title"] = "Anagram Solver";
+    ViewData["Title"] = "Anagram Solver application";
 }
 
 @*<div class="text-center">
         <h1 class="display-4">Welcome</h1>
         <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     </div>*@
+<h1><u>Anagram Solver</u></h1>
+<br />
+<br />
+@*<input type="text" size="25">
+    <input type="submit" size="25">*@
 
-<h1>Anagram Solver</h1>
+@*<button type="button" style="" onclick="alert('Find anagram')">Click Me!</button>*@
+
+<h2>Usage:</h2>
+<p>1. Enter word or phrase in search bar. Result will return anagrams.</p>
+<p>2. Check "Word List" to find wanted word.</p>
+
+@*<div class="form-group">
+        <label for="inputWord">Please enter wanted word or phrase</label>
+    </div>*@
+
+<div class="form-group">
+    <input type="text" size="25">
+</div>
+
+<div id="container">
+    <div class="button" id="button-3">
+        <div id="circle"></div>
+        <a href="#">Find anagram</a>
+    </div>
+</div>
+
+@*Returning anagram list*@
+@if (Model != null)
+{
+    <p><u>Result:</u></p>
+    @foreach (var item in Model)
+    {
+        if (item.Any(x => !char.IsLetter(x)))
+        {
+            <p>No results!</p>
+        }
+        else {
+            <ul>
+                <li>@item</li>
+            </ul>
+        }
+    }
+}
+
+<style>
+    .button {
+        display: inline-flex;
+        height: 40px;
+        width: 150px;
+        border: 2px solid #DF9924;
+        margin: 20px 20px 20px 0px;
+        color: #DF9924;
+        text-transform: uppercase;
+        text-decoration: none;
+        font-size: .8em;
+        letter-spacing: 1.5px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    a {
+        color: #DF9924;
+        text-decoration: none;
+        letter-spacing: 1px;
+    }
+
+    #button-3 {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+        #button-3 a {
+            position: relative;
+            transition: all .45s ease-Out;
+        }
+
+    #circle {
+        width: 0%;
+        height: 0%;
+        opacity: 0;
+        line-height: 40px;
+        border-radius: 50%;
+        background: #DF9924;
+        position: absolute;
+        transition: all .5s ease-Out;
+        top: 20px;
+        left: 70px;
+    }
+
+    #button-3:hover #circle {
+        width: 200%;
+        height: 500%;
+        opacity: 1;
+        top: -70px;
+        left: -70px;
+    }
+
+    #button-3:hover a {
+        color: #2D3142;
+    }
+</style>

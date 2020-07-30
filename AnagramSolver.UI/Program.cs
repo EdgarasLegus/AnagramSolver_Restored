@@ -3,46 +3,56 @@ using System;
 using System.Collections.Generic;
 using AnagramSolver.Interfaces;
 using Microsoft.Extensions.Configuration;
+using System.IO;
+using AnagramSolver.Contracts;
 
 namespace AnagramSolver.UI
 {
     class Program
     {
         private static readonly IAnagramSolver _anagramSolver = new BusinessLogic.AnagramSolver();
+        private static readonly IUI _userInterface = new UI();
 
         static void Main(string[] args)
         {
+
             // Konfiguracijos is json failo priskyrimas
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile(@"./appsettings.json")
-                .Build();
+            //var configuration = new ConfigurationBuilder()
+            //    .AddJsonFile(@"./appsettings.json")
+             //   .Build();
 
-            var minInputWordLength = Int32.Parse(configuration["Settings:minInputWordLength"]);
+            //var minInputWordLength = Int32.Parse(configuration["Settings:minInputWordLength"]);
 
-            // Ivesties skaitymas
-            Console.WriteLine("Input your word for solution: ");
-            var input = Console.ReadLine();
+            var minInputWordLength =  Configuration.BuilderConfigurations();
 
-            // Ivesties characters skaiciavimas
-            int charCount = _anagramSolver.CountChars(input);
+            //var minInputWordLength = ConfigurationConstants.MinInputWordLength;
 
-            // 1-os konfiguracijos tikrinimas
-            while (charCount < minInputWordLength)
-            {
-                Console.WriteLine("--Chars counted: " + charCount);
-                Console.WriteLine($"Length of input word is less than {minInputWordLength}! Try again");
-                input = Console.ReadLine();
+            var input = _userInterface.GetUserInput(minInputWordLength);
 
-                var inputCharCount = _anagramSolver.CountChars(input);
+            //// Ivesties skaitymas
+            //Console.WriteLine("Input your word for solution: ");
+            //var input = Console.ReadLine();
 
-                if (inputCharCount >= 1)
-                {
-                    charCount = inputCharCount;
-                    Console.WriteLine("Input is Valid!");
-                }
-            }
+            ////// Ivesties characters skaiciavimas
+            //int charCount = _anagramSolver.CountChars(input);
 
-            Console.WriteLine("--Chars counted: " + charCount);
+            ////// 1-os konfiguracijos tikrinimas
+            //while (charCount < minInputWordLength)
+            //{
+            //    Console.WriteLine("--Chars counted: " + charCount);
+            //    Console.WriteLine($"Length of input word is less than {minInputWordLength}! Try again");
+            //    input = Console.ReadLine();
+
+            //    var inputCharCount = _anagramSolver.CountChars(input);
+
+            //    if (inputCharCount >= 1)
+            //    {
+            //        charCount = inputCharCount;
+            //        Console.WriteLine("Input is Valid!");
+            //    }
+            //}
+
+            //Console.WriteLine("--Chars counted: " + charCount);
 
             // konvertuoti nereikia  _
             //var anagrams = (List<string>)AnagramSolver.GetAnagrams(input);

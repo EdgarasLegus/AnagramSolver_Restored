@@ -5,7 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AnagramSolver.BusinessLogic\AnagramSolver.BusinessLogic.csproj" />
     <ProjectReference Include="..\AnagramSolver.Interfaces\AnagramSolver.Interfaces.csproj" />
+    <ProjectReference Include="..\AnagramSolver.UI\AnagramSolver.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="zodynas.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

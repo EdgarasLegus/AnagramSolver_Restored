@@ -28,7 +28,6 @@ namespace AnagramSolver.Repos
         // ---- 1111111 Pirmojo ir antrojo stulpelio gavimas is failo
         public Dictionary<string, string> GetWords()
         {
-
              var configuration = new ConfigurationBuilder()
                .AddJsonFile(@"./appsettings.json")
                .Build();

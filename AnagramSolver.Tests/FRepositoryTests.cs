@@ -27,18 +27,18 @@ namespace AnagramSolver.Tests
         public void TestIfFileExists()
         {
             //Arrange
-            ConfigurationConstants.FileName = "test.txt";
+            Settings.FileName = "test.txt";
             //Act & Assert
-            FileAssert.Exists(ConfigurationConstants.FileName);
+            FileAssert.Exists(Settings.FileName);
         }
 
         [Test]
         public void TestIfAllWordsArePickedUpFromFile()
         {
             //Arrange
-            Contracts.ConfigurationConstants.FileName = "test.txt";
+            Contracts.Settings.FileName = "test.txt";
             int actualCountOfWords;
-            using (StreamReader reader = new StreamReader(ConfigurationConstants.FileName))
+            using (StreamReader reader = new StreamReader(Settings.FileName))
             {
                 string line;
                 int counter = 0;

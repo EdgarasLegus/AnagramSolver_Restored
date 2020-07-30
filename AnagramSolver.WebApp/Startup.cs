@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AnagramSolver.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +25,12 @@ namespace AnagramSolver.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            AnagramSolver.UI.Configuration.BuilderConfigurations();
+
+            services
+                .AddScoped<IAnagramSolver, BusinessLogic.AnagramSolver>()
+                .AddScoped<IWordRepository, Repos.FRepository>()
+                .AddScoped<IUI, UI.UI>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

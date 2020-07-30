@@ -5,15 +5,8 @@ using System.Dynamic;
 
 namespace AnagramSolver.BusinessLogic
 {
-    public class Configurations
+    public class Validations
     {
-        //private IConfigurationRoot _configuration;
-        //public Configurations()
-        //{
-         //   _configuration = new ConfigurationBuilder()
-          //      .AddJsonFile(@"./appsettings.json")
-           //     .Build();
-        //}
         public void AnagramValidator(IList<string> anagrams)
         {
             var configuration = new ConfigurationBuilder()

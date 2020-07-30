@@ -8,26 +8,48 @@ using Microsoft.Extensions.Logging;
 using AnagramSolver.WebApp.Models;
 using System.Text.Encodings.Web;
 using AnagramSolver.Interfaces;
+using Microsoft.Extensions.Configuration;
+using AnagramSolver.UI;
 
 namespace AnagramSolver.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        //private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> _logger;
         private readonly IAnagramSolver _anagramSolver;
+        private readonly IUI _userInterface;
 
-        public HomeController(IAnagramSolver anagramSolver)
+
+        //public HomeController(IAnagramSolver, anagramSovler)
+        public HomeController(IAnagramSolver anagramSolver, IUI userInterface)
         {
-            //_logger = logger;
-            _anagramSolver = anagramSolver;
+           //_logger = logger;
+           _anagramSolver = anagramSolver;
+           _userInterface = userInterface;
         }
 
         public IActionResult Index(string id)
         {
+            //var minInputWordLength = Configuration.BuilderConfigurations();
 
-            var anagrams = _anagramSolver.GetAnagrams(id);
+            //var input = _userInterface.GetUserInput(minInputWordLength);
 
-            return View(anagrams);
+            //return View();
+            //var anagrams = _anagramSolver.GetAnagrams(id);
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                    throw new Exception("Error! At least one word must be entered.");
+
+                var anagrams = _anagramSolver.GetAnagrams(id);
+
+                return View(anagrams);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(id);
+            }
         }
 
         public IActionResult Privacy()

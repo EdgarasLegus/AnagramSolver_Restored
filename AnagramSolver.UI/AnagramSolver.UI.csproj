@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AnagramSolver.BusinessLogic\AnagramSolver.BusinessLogic.csproj" />
     <ProjectReference Include="..\AnagramSolver.Contracts\AnagramSolver.Contracts.csproj" />
+    <ProjectReference Include="..\AnagramSolver.Interfaces\AnagramSolver.Interfaces.csproj" />
     <ProjectReference Include="..\AnagramSolver.Repos\AnagramSolver.Repos.csproj" />
   </ItemGroup>
 

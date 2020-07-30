@@ -27,7 +27,6 @@ namespace AnagramSolver.BusinessLogic
 
     public IEnumerable<string> GetAnagrams(string myWords)
         {
-
             // 1 - Failo pirmieji 2 stulpeliai
             // -----VAR
             // Kiekviena karta ne kolint idet 
