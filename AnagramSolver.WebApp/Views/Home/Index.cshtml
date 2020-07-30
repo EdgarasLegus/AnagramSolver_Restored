@@ -23,16 +23,22 @@
         <label for="inputWord">Please enter wanted word or phrase</label>
     </div>*@
 
-<div class="form-group">
-    <input type="text" size="25">
-</div>
-
-<div id="container">
+<form asp-action="Index">
+    <div class="form-group">
+        <input type="text" name="id" size="25">
+    </div>
     <div class="button" id="button-3">
         <div id="circle"></div>
         <a href="#">Find anagram</a>
     </div>
-</div>
+</form>
+
+@*<div id="container">*@
+    @*<div class="button" id="button-3">
+        <div id="circle"></div>
+        <a href="#">Find anagram</a>
+    </div>*@
+@*</div>*@
 
 @*Returning anagram list*@
 @if (Model != null)
