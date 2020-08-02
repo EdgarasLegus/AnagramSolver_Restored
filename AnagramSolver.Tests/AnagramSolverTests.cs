@@ -49,6 +49,8 @@ namespace AnagramSolver.Tests
         [TestCase("120-as", 6)]
         [TestCase(".", 1)]
         [TestCase("", 0)]
+        [TestCase("\t", 0)]
+        [TestCase("      ", 0)]
         //Padebugintas
         public void TestIfCharactersAmountIsCountedCorrectly(string inputWord, int expectedCount)
         {

@@ -1,13 +1,17 @@
 ﻿using AnagramSolver.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AnagramSolver.UI
 {
     public class UI : IUI
     {
         private static readonly IAnagramSolver _anagramSolver = new BusinessLogic.AnagramSolver();
+        private static readonly HttpClient client = new HttpClient();
+
         public string GetUserInput(int minInputWordLength)
         {
             // Ivesties skaitymas
@@ -35,6 +39,15 @@ namespace AnagramSolver.UI
 
             Console.WriteLine("--Chars counted: " + charCount);
             return input;
+        }
+
+        public async Task<string> RequestAPI(string inputForRequest)
+        {
+            HttpResponseMessage responseMessage = await client.GetAsync("https://localhost:44325/api/" + inputForRequest);
+            responseMessage.EnsureSuccessStatusCode();
+
+            var responseBody = await responseMessage.Content.ReadAsStringAsync();
+            return responseBody;
         }
     }
 }

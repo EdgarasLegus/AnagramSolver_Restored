@@ -21,13 +21,12 @@ namespace AnagramSolver.Tests
         public void Setup()
         {
             _wordRepository = new FRepository();
+            Settings.FileName = "test.txt";
         }
 
         [Test]
         public void TestIfFileExists()
         {
-            //Arrange
-            Settings.FileName = "test.txt";
             //Act & Assert
             FileAssert.Exists(Settings.FileName);
         }
@@ -36,24 +35,26 @@ namespace AnagramSolver.Tests
         public void TestIfAllWordsArePickedUpFromFile()
         {
             //Arrange
-            Contracts.Settings.FileName = "test.txt";
-            int actualCountOfWords;
+            //int actualCountOfWords;
+            int actualCountOfWords = 0;
             using (StreamReader reader = new StreamReader(Settings.FileName))
             {
                 string line;
-                int counter = 0;
+                //int counter = 0;
                 while ((line = reader.ReadLine()) != null)
                 {
                     string wordFromFirstColumn = line.Split('\t').ToList().First();
-                    counter++;
+                    //counter++;
+                    actualCountOfWords++;
                 }
-                actualCountOfWords = counter;
+                //actualCountOfWords = counter;
             }
             // Act
             Dictionary<string, string> firstColumn = _wordRepository.GetWords();
 
             //Assert (starting from 0)
             Assert.AreEqual(firstColumn.Count+1, actualCountOfWords);
+            //Assert.AreEqual(13, actualCountOfWords);
 
         }
     }

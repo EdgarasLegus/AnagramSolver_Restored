@@ -62,33 +62,37 @@ namespace AnagramSolver.BusinessLogic
         // 222222 ----------------------
         public Dictionary<string, string> MakeDictionary(Dictionary<string, string> dictionary)
         {
-            Dictionary<string, string> data = new Dictionary<string, string>();
+            //Dictionary<string, string> data = new Dictionary<string, string>();
 
-            List<string> firstColumn = dictionary.Keys.ToList();
+            //List<string> firstColumn = dictionary.Keys.ToList();
 
-            string sortedPart;
-            List<string> sortedWords = new List<string>();
-            for (int i = 0; i < firstColumn.Count; i++)
-            {
+            //string sortedPart;
+            //List<string> sortedWords = new List<string>();
+            //for (int i = 0; i < firstColumn.Count; i++)
+            //{
 
-                sortedPart = SortByAlphabet(firstColumn[i]);
-                sortedWords.Add(sortedPart);
-            }
-            //Žodyno sudarymas
-            Dictionary<string, string> myDictionary = new Dictionary<string, string>();
+            //    sortedPart = SortByAlphabet(firstColumn[i]);
+            //    sortedWords.Add(sortedPart);
+            //}
 
-            for (int i = 0; i < firstColumn.Count; i++)
-            {
-                if (myDictionary.ContainsKey(firstColumn[i]))
-                {
-                    myDictionary[firstColumn[i]] = sortedWords[i];
-                }
-                else
-                {
-                    myDictionary.Add(firstColumn[i], sortedWords[i]);
-                }
-            }
-            return myDictionary;
+            ////Žodyno sudarymas
+            //Dictionary<string, string> myDictionary = new Dictionary<string, string>();
+
+            //for (int i = 0; i < firstColumn.Count; i++)
+            //{
+            //    if (myDictionary.ContainsKey(firstColumn[i]))
+            //    {
+            //        myDictionary[firstColumn[i]] = sortedWords[i];
+            //    }
+            //    else
+            //    {
+            //        myDictionary.Add(firstColumn[i], sortedWords[i]);
+            //    }
+            //}
+            //return myDictionary;
+
+            var sortedDictionary = dictionary.ToDictionary(x => x.Key, y => SortByAlphabet(y.Key));
+            return sortedDictionary;
         }
 
         // KINTAMUJU PAVADINIMAS

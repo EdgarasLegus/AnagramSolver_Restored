@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -19,6 +19,7 @@
     <ProjectReference Include="..\AnagramSolver.BusinessLogic\AnagramSolver.BusinessLogic.csproj" />
     <ProjectReference Include="..\AnagramSolver.Interfaces\AnagramSolver.Interfaces.csproj" />
     <ProjectReference Include="..\AnagramSolver.Repos\AnagramSolver.Repos.csproj" />
+    <ProjectReference Include="..\AnagramSolver.WebApp\AnagramSolver.WebApp.csproj" />
   </ItemGroup>
 
   <ItemGroup>

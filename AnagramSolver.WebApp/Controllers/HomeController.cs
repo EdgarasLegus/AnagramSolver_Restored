@@ -17,15 +17,13 @@ namespace AnagramSolver.WebApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IAnagramSolver _anagramSolver;
-        private readonly IUI _userInterface;
 
 
         //public HomeController(IAnagramSolver, anagramSovler)
-        public HomeController(IAnagramSolver anagramSolver, IUI userInterface)
+        public HomeController(IAnagramSolver anagramSolver)
         {
            //_logger = logger;
            _anagramSolver = anagramSolver;
-           _userInterface = userInterface;
         }
 
         public IActionResult Index(string id)

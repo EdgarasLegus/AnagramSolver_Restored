@@ -30,7 +30,8 @@ namespace AnagramSolver.WebApp
             services
                 .AddScoped<IAnagramSolver, BusinessLogic.AnagramSolver>()
                 .AddScoped<IWordRepository, Repos.FRepository>()
-                .AddScoped<IUI, UI.UI>();
+                .AddScoped<IUI, UI.UI>().
+                AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,10 +50,12 @@ namespace AnagramSolver.WebApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            //Important
             app.UseRouting();
 
             app.UseAuthorization();
 
+            //Without parametrs will have MapDefaultControllerRoute
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
