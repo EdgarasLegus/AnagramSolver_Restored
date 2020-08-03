@@ -21,7 +21,7 @@ namespace AnagramSolver.WebApp.Controllers
             _anagramSolver = anagramSolver;
         }
 
-        public IActionResult Index(int? pageIndex, int pageSize = 100)
+        public IActionResult Index(int? pageIndex)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace AnagramSolver.WebApp.Controllers
                     .AsQueryable();
 
                 //var paginatedList = PaginatedList<Anagram>.CreateAsync(wordList, pageIndex ?? 1, pageSize);
-                var paginatedList = PaginatedList<Anagram>.Create(wordList, pageIndex ?? 1, pageSize);
+                var paginatedList = PaginatedList<Anagram>.Create(wordList, pageIndex ?? 1, 100);
 
                 return View(paginatedList);
             }

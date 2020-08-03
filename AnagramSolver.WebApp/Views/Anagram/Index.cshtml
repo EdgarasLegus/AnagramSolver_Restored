@@ -9,12 +9,12 @@
 }
 
 <a asp-action="Index"
-   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-pageIndex="@(Model.PageIndex - 1)"
    class="btn btn-default active @prevDisabled">
     << Previous
 </a>
 <a asp-action="Index"
-   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-pageIndex="@(Model.PageIndex + 1)"
    class="btn btn-default active @nextDisabled">
     Next >>
 </a>
