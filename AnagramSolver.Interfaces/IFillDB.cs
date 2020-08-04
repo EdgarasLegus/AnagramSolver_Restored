@@ -1,11 +1,11 @@
-﻿using System;
+﻿using AnagramSolver.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using AnagramSolver.Contracts;
 
 namespace AnagramSolver.Interfaces
 {
-    public interface IDBRepository
+    public interface IFillDB
     {
         void FillDatabaseFromFile(WordModel wordModel);
         bool checkIfTableIsEmpty();

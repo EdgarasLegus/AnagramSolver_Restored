@@ -16,7 +16,8 @@ namespace AnagramSolver.UI
     {
         private static readonly IAnagramSolver _anagramSolver = new BusinessLogic.AnagramSolver();
         private static readonly IUI _userInterface = new UI();
-        private static readonly IDBRepository _dBRepository = new DBRepository();
+        private static readonly IFillDB _fillDB = new FillDBRepository();
+        //private static readonly IDBRepository _dBRepository = new DBRepository();
 
         // Keiciama is static void Main i static async Task kad kviest async
         static async Task Main(string[] args)
@@ -46,10 +47,10 @@ namespace AnagramSolver.UI
             WordModel wordModel = new WordModel();
             if (answer == "Y")
             {
-                var check = _dBRepository.checkIfTableIsEmpty();
+                var check = _fillDB.checkIfTableIsEmpty();
                 if(check == true)
                 {
-                    _dBRepository.FillDatabaseFromFile(wordModel);
+                    _fillDB.FillDatabaseFromFile(wordModel);
                     Console.WriteLine("Data pushed successfully! Check AnagramSolver.dbo.Word table.");
                 }
                 else

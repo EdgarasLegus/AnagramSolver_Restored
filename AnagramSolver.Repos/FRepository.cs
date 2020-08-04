@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace AnagramSolver.Repos
 {
-    public class FRepository : AnagramSolver.Interfaces.IWordRepository
+    public class FRepository : Interfaces.IWordRepository
     {
         // Isnesame configuration is metodo ribu, kad galima butu keisti
 
