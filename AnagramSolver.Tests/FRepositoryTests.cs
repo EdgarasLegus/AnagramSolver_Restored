@@ -50,7 +50,10 @@ namespace AnagramSolver.Tests
                 //actualCountOfWords = counter;
             }
             // Act
-            Dictionary<string, string> firstColumn = _wordRepository.GetWords();
+            //Dictionary<string, string> firstColumn = _wordRepository.GetWords();
+            List<WordModel> wordsModel = _wordRepository.GetWords();
+            //var firstColumn = wordsModel.First();
+            var firstColumn = wordsModel.ToDictionary(x => x.Word, x => x.Category);
 
             //Assert (starting from 0)
             Assert.AreEqual(firstColumn.Count+1, actualCountOfWords);

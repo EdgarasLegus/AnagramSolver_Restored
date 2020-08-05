@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using AnagramSolver.Contracts;
+using AnagramSolver.Repos;
 
 namespace AnagramSolver.UI
 {
@@ -11,6 +13,9 @@ namespace AnagramSolver.UI
     {
         private static readonly IAnagramSolver _anagramSolver = new BusinessLogic.AnagramSolver();
         private static readonly HttpClient client = new HttpClient();
+        private static readonly IFillDB _fillDB = new FillDBRepository();
+
+
 
         public string GetUserInput(int minInputWordLength)
         {
@@ -39,6 +44,28 @@ namespace AnagramSolver.UI
 
             Console.WriteLine("--Chars counted: " + charCount);
             return input;
+        }
+
+        public void ToFillTable()
+        {
+            // Add information to database
+            Console.WriteLine("---Fill AnagramSolver.dbo.Word(Y/press any key))?");
+
+            string answer = Console.ReadLine();
+            WordModel wordModel = new WordModel();
+            if (answer == "Y")
+            {
+                var check = _fillDB.checkIfTableIsEmpty();
+                if (check == true)
+                {
+                    _fillDB.FillDatabaseFromFile(wordModel);
+                    Console.WriteLine("Data pushed successfully! Check AnagramSolver.dbo.Word table.");
+                }
+                else
+                {
+                    Console.WriteLine("Table is already filled with data!");
+                }
+            }
         }
 
         public async Task<string> RequestAPI(string inputForRequest)

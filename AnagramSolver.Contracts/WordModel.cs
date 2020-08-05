@@ -6,7 +6,7 @@ namespace AnagramSolver.Contracts
 {
     public class WordModel
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public string Word { get; set; }
         public string Category { get; set; }
 

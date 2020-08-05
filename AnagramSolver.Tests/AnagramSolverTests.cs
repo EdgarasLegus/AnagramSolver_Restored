@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using Shouldly;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using AnagramSolver.Contracts;
+using System.Reflection;
 
 namespace AnagramSolver.Tests
 {
@@ -75,7 +77,8 @@ namespace AnagramSolver.Tests
                 {"Ribentropas", "tikr." },
                 {"Atlantida", "tikr." },
                 {"14-15-tas", "sktv." }
-            };
+            }.Select(pair => new WordModel() { Word = pair.Key, Category = pair.Value}).ToList();
+
             var expectedOutputFromGivenColumns = new Dictionary<string, string>()
             {
                 {"Simonas", "Saimnos" },
@@ -84,10 +87,12 @@ namespace AnagramSolver.Tests
                 {"Atlantida", "Aaadilntt" },
                 {"14-15-tas", "--1145ast" }
             };
+
             //Act
             Dictionary<string, string> outputDictionary = _anagramSolver.MakeDictionary(testInputFromGivenColumns);
+            //var outputDictionaryForComparison = outputDictionary.Select(pair => new WordModel() { Word = pair.Key, Category = pair.Value }).ToList();
             //Assert
-            Assert.AreEqual(expectedOutputFromGivenColumns, outputDictionary);
+            CollectionAssert.AreEqual(expectedOutputFromGivenColumns, outputDictionary);
         }
 
         [TestCase("veidas","dievas")]

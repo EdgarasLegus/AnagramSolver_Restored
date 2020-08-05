@@ -27,11 +27,12 @@ namespace AnagramSolver.WebApp.Controllers
             {
                 //var wordList = _repository.GetWords().AsQueryable();
                 //return View(PaginatedList<Anagram>.CreateAsync((IQueryable<Anagram>)wordList, pageIndex ?? 1, pageSize));
+
                 var wordList = _repository.GetWords()
                     .Select(x => new Anagram
                     {
-                        Word = x.Key,
-                        PartOfSpeech = x.Value
+                        Word = x.Word,//x.Word,//x.Key,
+                        PartOfSpeech = x.Category//x.Category//x.Value
                     })
                     .AsQueryable();
 

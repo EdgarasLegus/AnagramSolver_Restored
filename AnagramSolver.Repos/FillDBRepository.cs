@@ -24,7 +24,7 @@ namespace AnagramSolver.Repos
                 "VALUES(@Word, @Category)";
             //var connectionString = "Server=LT-LIT-SC-0513;Database=AnagramSolver;Integrated Security = true;Uid=auth_windows";
 
-            var fileColumns = repository.GetWords().ToList();
+            var fileColumns = repository.GetWords();//.ToList;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
@@ -36,8 +36,8 @@ namespace AnagramSolver.Repos
 
                 foreach (var item in fileColumns)
                 {
-                    cmd.Parameters[0].Value = item.Key;
-                    cmd.Parameters[1].Value = item.Value;
+                    cmd.Parameters[0].Value = item.Word;//item.Word;//item.Key;
+                    cmd.Parameters[1].Value = item.Category;//item.Category;//item.Value;
 
                     cmd.ExecuteNonQuery();
                 }
@@ -58,10 +58,6 @@ namespace AnagramSolver.Repos
                 return result == 0; // if result equals zero, then the table is empty
             }
         }
-
-        public Dictionary<string, string> GetWords()
-        {
-            return repository.GetWords();
-        }
     }
 }
+

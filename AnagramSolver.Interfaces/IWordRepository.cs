@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AnagramSolver.Contracts;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -8,6 +9,11 @@ namespace AnagramSolver.Interfaces
 {
     public interface IWordRepository
     {
-        Dictionary<string, string> GetWords();
+        //Dictionary<string, string> GetWords();
+        List<WordModel> GetWords();
+
+        //List<WordModel> GetTest();
+
+        //List<WordModel> GetListDictTest();
     }
 }

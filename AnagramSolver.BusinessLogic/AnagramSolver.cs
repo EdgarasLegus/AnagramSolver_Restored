@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AnagramSolver.Contracts;
 using AnagramSolver.Interfaces;
 using AnagramSolver.Repos;
 
@@ -17,9 +18,17 @@ namespace AnagramSolver.BusinessLogic
 
         public AnagramSolver()
         {
-            var repository = new FRepository();
+            //var repository = new FRepository();
+            var repository = new DBRepository();
             // 1 zingsnis --- Gauname failo pirmuosius 2 stulpelius
             var fileColumns = repository.GetWords();
+
+            //Console.WriteLine("I AM STUCK");
+            //var test = repository.GetTest();
+            //Console.WriteLine("I AM STUCK");
+            //Console.WriteLine("NOW LETS HASH!");
+            //var secondTest = repository.GetListDictTest();
+            //Console.WriteLine("Hash test done");
 
             // 2 zingsnis -- Zodyno sudarymas
             _createdDictionary = MakeDictionary(fileColumns);
@@ -59,39 +68,46 @@ namespace AnagramSolver.BusinessLogic
             return new string(convertedToChar);
         }
 
-        // 222222 ----------------------
-        public Dictionary<string, string> MakeDictionary(Dictionary<string, string> dictionary)
+        //222222 ----------------------
+        //public Dictionary<string, string> MakeDictionary(Dictionary<string, string> dictionary)
+        //{
+        //    //Dictionary<string, string> data = new Dictionary<string, string>();
+
+        //    //List<string> firstColumn = dictionary.Keys.ToList();
+
+        //    //string sortedPart;
+        //    //List<string> sortedWords = new List<string>();
+        //    //for (int i = 0; i < firstColumn.Count; i++)
+        //    //{
+
+        //    //    sortedPart = SortByAlphabet(firstColumn[i]);
+        //    //    sortedWords.Add(sortedPart);
+        //    //}
+
+        //    ////Žodyno sudarymas
+        //    //Dictionary<string, string> myDictionary = new Dictionary<string, string>();
+
+        //    //for (int i = 0; i < firstColumn.Count; i++)
+        //    //{
+        //    //    if (myDictionary.ContainsKey(firstColumn[i]))
+        //    //    {
+        //    //        myDictionary[firstColumn[i]] = sortedWords[i];
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        myDictionary.Add(firstColumn[i], sortedWords[i]);
+        //    //    }
+        //    //}
+        //    //return myDictionary;
+
+        //    var sortedDictionary = dictionary.ToDictionary(x => x.Key, y => SortByAlphabet(y.Key));
+        //    return sortedDictionary;
+        //}
+
+        public Dictionary<string, string> MakeDictionary(List<WordModel> wordModel)
         {
-            //Dictionary<string, string> data = new Dictionary<string, string>();
-
-            //List<string> firstColumn = dictionary.Keys.ToList();
-
-            //string sortedPart;
-            //List<string> sortedWords = new List<string>();
-            //for (int i = 0; i < firstColumn.Count; i++)
-            //{
-
-            //    sortedPart = SortByAlphabet(firstColumn[i]);
-            //    sortedWords.Add(sortedPart);
-            //}
-
-            ////Žodyno sudarymas
-            //Dictionary<string, string> myDictionary = new Dictionary<string, string>();
-
-            //for (int i = 0; i < firstColumn.Count; i++)
-            //{
-            //    if (myDictionary.ContainsKey(firstColumn[i]))
-            //    {
-            //        myDictionary[firstColumn[i]] = sortedWords[i];
-            //    }
-            //    else
-            //    {
-            //        myDictionary.Add(firstColumn[i], sortedWords[i]);
-            //    }
-            //}
-            //return myDictionary;
-
-            var sortedDictionary = dictionary.ToDictionary(x => x.Key, y => SortByAlphabet(y.Key));
+            var wordModelDictionary = wordModel.ToDictionary(x => x.Word, x => x.Category);
+            var sortedDictionary = wordModelDictionary.ToDictionary(x => x.Key, y => SortByAlphabet(y.Key));
             return sortedDictionary;
         }
 

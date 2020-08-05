@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using AnagramSolver.Repos;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
 
 namespace AnagramSolver.UI
 {
@@ -16,19 +17,18 @@ namespace AnagramSolver.UI
     {
         private static readonly IAnagramSolver _anagramSolver = new BusinessLogic.AnagramSolver();
         private static readonly IUI _userInterface = new UI();
-        private static readonly IFillDB _fillDB = new FillDBRepository();
-        //private static readonly IDBRepository _dBRepository = new DBRepository();
 
         // Keiciama is static void Main i static async Task kad kviest async
         static async Task Main(string[] args)
         {
+            // 1- Ar uzpildyti lentele
+            _userInterface.ToFillTable();
 
             var minInputWordLength =  Configuration.BuilderConfigurations();
 
             var input = _userInterface.GetUserInput(minInputWordLength);
 
             var anagrams = _anagramSolver.GetAnagrams(input);
-
 
             Console.WriteLine("---Anagramos:");
             Console.WriteLine(string.Join('\n', anagrams));
@@ -40,29 +40,6 @@ namespace AnagramSolver.UI
             Console.WriteLine("---API Response anagramos:");
             Console.WriteLine(responseAnagrams);
 
-            // Add information to database
-            Console.WriteLine("---Fill AnagramSolver.dbo.Word?");
-
-            string answer = Console.ReadLine();
-            WordModel wordModel = new WordModel();
-            if (answer == "Y")
-            {
-                var check = _fillDB.checkIfTableIsEmpty();
-                if(check == true)
-                {
-                    _fillDB.FillDatabaseFromFile(wordModel);
-                    Console.WriteLine("Data pushed successfully! Check AnagramSolver.dbo.Word table.");
-                }
-                else
-                {
-                    Console.WriteLine("Table is already filled with data!");
-                    Environment.Exit(0);
-                }
-            }
-            else
-            {
-                Environment.Exit(0);
-            }
 
             //+++ Configuration klase , o metodas AnagramValidator, sukurt objekta pries tai.
             // Ideti validavima i try catch catch --> Console.. ArgumentException 
