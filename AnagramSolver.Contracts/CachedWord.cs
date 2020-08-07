@@ -6,8 +6,8 @@ namespace AnagramSolver.Contracts
 {
     public class CachedWord
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public string SearchWord { get; set; }
-        public string AnagramWordsId { get; set; } 
+        public string AnagramWordsIds { get; set; } 
     }
 }

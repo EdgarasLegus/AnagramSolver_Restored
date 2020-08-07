@@ -41,5 +41,29 @@ namespace AnagramSolver.BusinessLogic
             }
             return wordModel;
         }
+
+        public List<CachedWord> GetCachedWords()
+        {
+            var cachedWords = new List<CachedWord>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM AnagramSolver.dbo.CachedWord", connection);
+
+                //var check = fillDB.checkIfTableIsEmpty();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        cachedWords.Add(new CachedWord
+                        {
+                            SearchWord = reader["SearchWord"].ToString(),
+                            AnagramWordsIds = reader["AnagramWordIds"].ToString()
+                        });
+                    }
+                }
+            }
+            return cachedWords;
+        }
     }
 }
