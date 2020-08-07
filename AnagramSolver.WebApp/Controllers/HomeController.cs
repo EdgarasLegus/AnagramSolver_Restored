@@ -15,25 +15,15 @@ namespace AnagramSolver.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IAnagramSolver _anagramSolver;
 
-
-        //public HomeController(IAnagramSolver, anagramSovler)
         public HomeController(IAnagramSolver anagramSolver)
         {
-           //_logger = logger;
            _anagramSolver = anagramSolver;
         }
 
         public IActionResult Index(string id)
         {
-            //var minInputWordLength = Configuration.BuilderConfigurations();
-
-            //var input = _userInterface.GetUserInput(minInputWordLength);
-
-            //return View();
-            //var anagrams = _anagramSolver.GetAnagrams(id);
             try
             {
                 if (string.IsNullOrEmpty(id))
@@ -60,11 +50,5 @@ namespace AnagramSolver.WebApp.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        //public string Welcome(string name, int numTimes = 1)
-        //{
-        //    return HtmlEncoder.Default.Encode($"Hello {name}, NumTimes is: {numTimes}");
-        //}
-
     }
 }

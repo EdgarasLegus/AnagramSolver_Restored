@@ -14,32 +14,44 @@ namespace AnagramSolver.WebApp.Controllers
     {
         private readonly IWordRepository _repository;
         private readonly IAnagramSolver _anagramSolver;
+        private readonly IDatabaseLogic _databaseLogic;
 
-        public AnagramController(IWordRepository repository, IAnagramSolver anagramSolver)
+        public AnagramController(IWordRepository repository, IAnagramSolver anagramSolver, IDatabaseLogic databaseLogic)
         {
             _repository = repository;
             _anagramSolver = anagramSolver;
+            _databaseLogic = databaseLogic;
         }
 
-        public IActionResult Index(int? pageIndex)
+        public IActionResult Index(int? pageIndex, string searchInput, int pageSize = 100)
         {
             try
             {
                 //var wordList = _repository.GetWords().AsQueryable();
                 //return View(PaginatedList<Anagram>.CreateAsync((IQueryable<Anagram>)wordList, pageIndex ?? 1, pageSize));
+                List<WordModel> wordList;
 
-                var wordList = _repository.GetWords()
-                    .Select(x => new Anagram
-                    {
-                        Word = x.Word,//x.Word,//x.Key,
-                        PartOfSpeech = x.Category//x.Category//x.Value
-                    })
-                    .AsQueryable();
+                if (!string.IsNullOrEmpty(searchInput))
+                {
+                    wordList = _databaseLogic.SearchWords(searchInput);
+                    pageSize = wordList.Count;
+                }
+                else {
+                    wordList = _repository.GetWords();
+                } 
+                //wordList = _repository.GetWords()
+                //    .Select(x => new Anagram
+                //    {
+                //        Word = x.Word,//x.Word,//x.Key,
+                //        PartOfSpeech = x.Category//x.Category//x.Value
+                //    })
+                //    .AsQueryable();
 
                 //var paginatedList = PaginatedList<Anagram>.CreateAsync(wordList, pageIndex ?? 1, pageSize);
-                var paginatedList = PaginatedList<Anagram>.Create(wordList, pageIndex ?? 1, 100);
+                var paginatedList = PaginatedList<WordModel>.Create(wordList, pageIndex ?? 1, pageSize);
+                //var paginatedList = PaginatedList<WordModel>.Create((IQueryable<WordModel>)wordList, pageIndex ?? 1, 100);
 
-                return View(paginatedList);
+                return View(paginatedList); 
             }
             catch(Exception ex)
             {

@@ -11,9 +11,5 @@ namespace AnagramSolver.Interfaces
     {
         //Dictionary<string, string> GetWords();
         List<WordModel> GetWords();
-
-        //List<WordModel> GetTest();
-
-        //List<WordModel> GetListDictTest();
     }
 }

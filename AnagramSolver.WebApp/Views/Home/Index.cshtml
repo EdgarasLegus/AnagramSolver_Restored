@@ -3,26 +3,15 @@
     ViewData["Title"] = "Anagram Solver application";
 }
 
-@*<div class="text-center">
-        <h1 class="display-4">Welcome</h1>
-        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    </div>*@
 <h1><u>Anagram Solver</u></h1>
 <br />
 <br />
-@*<input type="text" size="25">
-    <input type="submit" size="25">*@
-
-@*<button type="button" style="" onclick="alert('Find anagram')">Click Me!</button>*@
 
 
 <h2>Usage:</h2>
 <p>1. Enter word or phrase in search bar. Result will return anagrams.</p>
 <p>2. Check "Word List" to find wanted word.</p>
 
-@*<div class="form-group">
-        <label for="inputWord">Please enter wanted word or phrase</label>
-    </div>*@
 
 <form asp-action="Index">
     <div class="form-group">
@@ -31,12 +20,6 @@
     <button type="submit" class="button" id="button-3">Find anagram</button>
 </form>
 
-@*<div id="container">*@
-    @*<div class="button" id="button-3">
-        <div id="circle"></div>
-        <a href="#">Find anagram</a>
-    </div>*@
-@*</div>*@
 
 @*Returning anagram list*@
 @if (Model != null)

@@ -30,6 +30,7 @@ namespace AnagramSolver.WebApp
             services
                 .AddScoped<IAnagramSolver, BusinessLogic.AnagramSolver>()
                 .AddScoped<IWordRepository, Repos.FRepository>()
+                .AddScoped<IDatabaseLogic, BusinessLogic.DatabaseLogic>()
                 .AddScoped<IUI, UI.UI>().
                 AddHttpContextAccessor();
         }

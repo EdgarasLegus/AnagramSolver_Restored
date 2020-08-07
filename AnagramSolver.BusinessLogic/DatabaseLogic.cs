@@ -1,12 +1,15 @@
 ﻿using AnagramSolver.Contracts;
+using AnagramSolver.Interfaces;
+using Renci.SshNet.Messages.Connection;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
 namespace AnagramSolver.BusinessLogic
 {
-    public class DatabaseLogic
+    public class DatabaseLogic : IDatabaseLogic
     {
         private readonly string connectionString = "Server=LT-LIT-SC-0513;Database=AnagramSolver;" +
             "Integrated Security = true;Uid=auth_windows";
@@ -17,20 +20,24 @@ namespace AnagramSolver.BusinessLogic
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                SqlCommand cmd = new SqlCommand();
-                cmd.Parameters.Add(new SqlParameter($"SELECT * FROM AnagramSolver.dbo.Word WHERE Word like '%{searchInput}%'", connection));
-
+                SqlCommand cmd = new SqlCommand("SELECT * FROM AnagramSolver.dbo.Word WHERE Word LIKE @searchInput", connection);
+                cmd.Parameters.Add(new SqlParameter("@searchInput", "%" + searchInput + "%"));
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
+                    if (reader.HasRows)
                     {
-                        wordModel.Add(new WordModel
+                        while (reader.Read())
                         {
-                            Word = reader["Word"].ToString()
-                        });
+                            wordModel.Add(new WordModel
+                            {
+                                Word = reader["Word"].ToString(),
+                                Category = reader["Category"].ToString()
+                            });
+                        }
                     }
+                    reader.Close();
+                    connection.Close();
                 }
-
             }
             return wordModel;
         }

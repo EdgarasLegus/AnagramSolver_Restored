@@ -7,7 +7,7 @@ using AnagramSolver.Repos;
 
 namespace AnagramSolver.BusinessLogic
 {
-    public class AnagramSolver : Interfaces.IAnagramSolver
+    public class AnagramSolver : IAnagramSolver
     {
         // TESTAS 
         // ar gerai nuskaitomas failas
@@ -23,14 +23,6 @@ namespace AnagramSolver.BusinessLogic
             // 1 zingsnis --- Gauname failo pirmuosius 2 stulpelius
             var fileColumns = repository.GetWords();
 
-            //Console.WriteLine("I AM STUCK");
-            //var test = repository.GetTest();
-            //Console.WriteLine("I AM STUCK");
-            //Console.WriteLine("NOW LETS HASH!");
-            //var secondTest = repository.GetListDictTest();
-            //Console.WriteLine("Hash test done");
-
-            // 2 zingsnis -- Zodyno sudarymas
             _createdDictionary = MakeDictionary(fileColumns);
         }
 
@@ -66,6 +58,21 @@ namespace AnagramSolver.BusinessLogic
             Array.Sort(convertedToChar);
 
             return new string(convertedToChar);
+        }
+
+        public Dictionary<string, string> MakeDictionary(List<WordModel> wordModel)
+        {
+            var wordModelDictionary = wordModel.ToDictionary(x => x.Word, x => x.Category);
+            var sortedDictionary = wordModelDictionary.ToDictionary(x => x.Key, y => SortByAlphabet(y.Key));
+            return sortedDictionary;
+        }
+
+        public int CountChars(string input)
+        {
+            // CharListo characteriu skaiciavimas
+            char[] characters = input.ToCharArray();
+            int charCount = input.Count(c => !Char.IsWhiteSpace(c));
+            return charCount;
         }
 
         //222222 ----------------------
@@ -104,22 +111,5 @@ namespace AnagramSolver.BusinessLogic
         //    return sortedDictionary;
         //}
 
-        public Dictionary<string, string> MakeDictionary(List<WordModel> wordModel)
-        {
-            var wordModelDictionary = wordModel.ToDictionary(x => x.Word, x => x.Category);
-            var sortedDictionary = wordModelDictionary.ToDictionary(x => x.Key, y => SortByAlphabet(y.Key));
-            return sortedDictionary;
-        }
-
-        // KINTAMUJU PAVADINIMAS
-        // IEnumerable 
-
-        public int CountChars(string input)
-        {
-            // CharListo characteriu skaiciavimas
-            char[] characters = input.ToCharArray();
-            int charCount = input.Count(c => !Char.IsWhiteSpace(c));
-            return charCount;
-        }
     }
 }
