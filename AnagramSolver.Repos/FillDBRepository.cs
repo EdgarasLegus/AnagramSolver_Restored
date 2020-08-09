@@ -4,6 +4,7 @@ using System.Text;
 using AnagramSolver.Interfaces;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Configuration;
 
 namespace AnagramSolver.Repos
 {

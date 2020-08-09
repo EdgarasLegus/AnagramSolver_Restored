@@ -8,6 +8,7 @@ namespace AnagramSolver.Contracts
     {
         //public int Id { get; set; }
         public string SearchWord { get; set; }
-        public string AnagramWordsIds { get; set; } 
+        public int AnagramWordId { get; set; }
+
     }
 }

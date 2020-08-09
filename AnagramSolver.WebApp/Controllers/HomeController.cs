@@ -16,10 +16,12 @@ namespace AnagramSolver.WebApp.Controllers
     public class HomeController : Controller
     {
         private readonly IAnagramSolver _anagramSolver;
+        private readonly IDatabaseLogic _databaseLogic;
 
-        public HomeController(IAnagramSolver anagramSolver)
+        public HomeController(IAnagramSolver anagramSolver, IDatabaseLogic databaseLogic)
         {
            _anagramSolver = anagramSolver;
+            _databaseLogic = databaseLogic;
         }
 
         public IActionResult Index(string id)
@@ -28,10 +30,21 @@ namespace AnagramSolver.WebApp.Controllers
             {
                 if (string.IsNullOrEmpty(id))
                     throw new Exception("Error! At least one word must be entered.");
+                var check = _databaseLogic.GetCachedWords(id);
+                if (check.Count == 0)
+                {
+                    var anagrams = _anagramSolver.GetAnagrams(id);
+                    var anagramsId = _databaseLogic.GetAnagramsId(anagrams);
+                    _databaseLogic.InsertCachedWords(id, anagramsId);
+                    return View(anagrams);
+                }
+                else
+                {
+                    var anagramsFromCache = _databaseLogic.GetCachedWords(id);
+                    return View(anagramsFromCache);
+                }
 
-                var anagrams = _anagramSolver.GetAnagrams(id);
-
-                return View(anagrams);
+                //return View(anagrams);
             }
             catch (Exception ex)
             {

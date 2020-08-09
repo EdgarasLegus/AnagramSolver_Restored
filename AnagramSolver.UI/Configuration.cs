@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AnagramSolver.Interfaces;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +14,6 @@ namespace AnagramSolver.UI
                 .AddJsonFile(@"./appsettings.json")
                 .Build();
             var minInputWordLength = Int32.Parse(configuration["Settings:minInputWordLength"]);
-            var FileName = configuration["Settings:FileName"];
 
             return minInputWordLength;
         }
@@ -26,6 +26,15 @@ namespace AnagramSolver.UI
             var FileName = configuration["Settings:FileName"];
 
             return FileName;
+        }
+
+        public static string GetConnectionString()
+        {
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile(@"./appsettings.json")
+                .Build();
+            var connectionString = configuration["ConnectionProperties:ConnectionString"];
+            return connectionString;
         }
     }
 }

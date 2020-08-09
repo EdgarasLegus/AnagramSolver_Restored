@@ -14,6 +14,7 @@ namespace AnagramSolver.WebApp
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,14 +26,14 @@ namespace AnagramSolver.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            AnagramSolver.UI.Configuration.BuilderConfigurations();
+            UI.Configuration.BuilderConfigurations();
 
             services
                 .AddScoped<IAnagramSolver, BusinessLogic.AnagramSolver>()
                 .AddScoped<IWordRepository, Repos.FRepository>()
                 .AddScoped<IDatabaseLogic, BusinessLogic.DatabaseLogic>()
-                .AddScoped<IUI, UI.UI>().
-                AddHttpContextAccessor();
+                .AddScoped<IUI, UI.UI>()
+                .AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -11,6 +11,7 @@ namespace AnagramSolver.Contracts
         public static int MinInputWordLength { get; set; }
         public static int MinNumberOfAnagrams { get; set; }
         public static string FileName { get; set; }
+        public static string ConnectionString { get; set; }
 
     }
 }
