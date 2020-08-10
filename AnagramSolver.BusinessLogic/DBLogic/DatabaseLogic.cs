@@ -138,19 +138,19 @@ namespace AnagramSolver.BusinessLogic
             }
         }
 
-        public List<string> PseudoCaching(string searchInput, List<int> anagramsIdList)
-        {
-            var result = GetCachedWords(searchInput);
-            if (result == null)
-            {
-                InsertCachedWords(searchInput, anagramsIdList);
-                return null;
-            }
-            else
-            {
-                var anagramList = GetCachedWords(searchInput);
-                return anagramList;
-            }
-        }
+        //public List<string> PseudoCaching(string searchInput, List<int> anagramsIdList)
+        //{
+        //    var result = GetCachedWords(searchInput);
+        //    if (result == null)
+        //    {
+        //        InsertCachedWords(searchInput, anagramsIdList);
+        //        return null;
+        //    }
+        //    else
+        //    {
+        //        var anagramList = GetCachedWords(searchInput);
+        //        return anagramList;
+        //    }
+        //}
     }
 }

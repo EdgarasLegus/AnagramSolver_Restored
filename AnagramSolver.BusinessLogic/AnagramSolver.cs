@@ -20,6 +20,8 @@ namespace AnagramSolver.BusinessLogic
         {
             //var repository = new FRepository();
             var repository = new DBRepository();
+            //var repository = new EFRepository(); 
+
             // 1 zingsnis --- Gauname failo pirmuosius 2 stulpelius
             var fileColumns = repository.GetWords();
 

@@ -14,6 +14,6 @@ namespace AnagramSolver.Interfaces
 
         List<int> GetAnagramsId(IEnumerable<string> anagrams);
 
-        List<string> PseudoCaching(string searchInput, List<int> anagramsIdList);
+        //List<string> PseudoCaching(string searchInput, List<int> anagramsIdList);
     }
 }

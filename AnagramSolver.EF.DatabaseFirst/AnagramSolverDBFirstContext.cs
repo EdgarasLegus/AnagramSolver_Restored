@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using AnagramSolver.Contracts;
+using AnagramSolver.Contracts.Entities;
 
 namespace AnagramSolver.EF.DatabaseFirst
 {
@@ -8,9 +8,9 @@ namespace AnagramSolver.EF.DatabaseFirst
     {
         private readonly string connectionString = "Server=LT-LIT-SC-0513;Database=AnagramSolver;" +
             "Integrated Security = true;Uid=auth_windows";
-        public virtual DbSet<WordModel> Word { get; set; }
-        public virtual DbSet<UserLog> UserLog { get; set; }
-        public virtual DbSet<CachedWord> CachedWord { get; set; }
+        public virtual DbSet<WordEntity> Word { get; set; }
+        public virtual DbSet<UserLogEntity> UserLog { get; set; }
+        public virtual DbSet<CachedWordEntity> CachedWord { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -22,20 +22,29 @@ namespace AnagramSolver.EF.DatabaseFirst
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<WordModel>(entity =>
+            modelBuilder.Entity<WordEntity>(entity =>
             {
+                entity.Property(e => e.Id)
+                .HasColumnName("Id")
+                .IsRequired();
+
                 entity.Property(e => e.Word)
                 .HasColumnName("Word")
                 .HasColumnType("nvarchar")
-                .HasMaxLength(255);
+                .HasMaxLength(255)
+                .IsRequired();
 
                 entity.Property(e => e.Category)
                 .HasColumnName("Category")
                 .HasColumnType("nvarchar")
-                .HasMaxLength(255);
+                .HasMaxLength(255)
+                .IsRequired();
+
+                entity.HasKey(e => e.Id);
+
             });
 
-            modelBuilder.Entity<UserLog>(entity =>
+            modelBuilder.Entity<UserLogEntity>(entity =>
             {
                 entity.Property(e => e.UserIp)
                 .HasColumnName("UserIp")
@@ -43,8 +52,34 @@ namespace AnagramSolver.EF.DatabaseFirst
 
                 entity.Property(e => e.SearchWordId)
                 .HasColumnName("Category")
+                .HasColumnType("int");
+
+                entity.Property(e => e.SearchTime)
+                .HasColumnName("SearchTime")
+                .HasColumnType("datetime");
+
+            });
+
+            modelBuilder.Entity<CachedWordEntity>(entity =>
+            {
+                entity.Property(e => e.Id)
+                .HasColumnName("Id")
+                .IsRequired();
+
+                entity.Property(e => e.SearchWord)
+                .HasColumnName("SearchWord")
                 .HasColumnType("nvarchar")
-                .HasMaxLength(255);
+                .IsRequired();
+
+                entity.Property(e => e.AnagramWordId)
+                .HasColumnName("AnagramWordId")
+                .HasColumnType("int")
+                .IsRequired();
+
+                entity.HasKey(e => e.Id);
+                //entity.HasOne(d => d.WordModel)
+                //.WithOne(p => p.CachedWord)
+                //.HasForeignKey<CachedWord>(d => d.WordId);
 
             });
         }
