@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using AnagramSolver.Contracts;
+using AnagramSolver.Contracts.Entities;
+using AnagramSolver.EF.DatabaseFirst;
 using AnagramSolver.Interfaces;
+using AnagramSolver.Interfaces.DBFirst;
 using AnagramSolver.Repos;
 
 namespace AnagramSolver.BusinessLogic
@@ -13,14 +16,21 @@ namespace AnagramSolver.BusinessLogic
         // ar gerai nuskaitomas failas
 
         private Dictionary<string, string> _createdDictionary;
+        private readonly AnagramSolverDBFirstContext _context;
+        private readonly IEFRepository _efRepository;
 
         public IWordRepository FRepository { get; set; }
+        public IWordRepository DBRepository { get; set; }
+        public IEFRepository EFRepository { get; set; }
+
 
         public AnagramSolver()
         {
             //var repository = new FRepository();
-            var repository = new DBRepository();
-            //var repository = new EFRepository(); 
+            //var repository = new DBRepository();
+
+            var cont = new AnagramSolverDBFirstContext();
+            var repository = new EFRepository(cont);
 
             // 1 zingsnis --- Gauname failo pirmuosius 2 stulpelius
             var fileColumns = repository.GetWords();
@@ -31,7 +41,6 @@ namespace AnagramSolver.BusinessLogic
     public IEnumerable<string> GetAnagrams(string myWords)
         {
             // 1 - Failo pirmieji 2 stulpeliai
-            // -----VAR
             // Kiekviena karta ne kolint idet 
             //Dictionary<string, string> fileColumns = FRepository.GetWords();
 
@@ -62,9 +71,11 @@ namespace AnagramSolver.BusinessLogic
             return new string(convertedToChar);
         }
 
-        public Dictionary<string, string> MakeDictionary(List<WordModel> wordModel)
+        //**// public Dictionary<string, string> MakeDictionary(List<WordModel> wordModel)
+        public Dictionary<string, string> MakeDictionary(List<WordEntity> wordModel)
         {
-            var wordModelDictionary = wordModel.ToDictionary(x => x.Word, x => x.Category);
+            //**//var wordModelDictionary = wordModel.ToDictionary(x => x.Word, x => x.Category);
+            var wordModelDictionary = wordModel.ToDictionary(x => x.Word1, x => x.Category);
             var sortedDictionary = wordModelDictionary.ToDictionary(x => x.Key, y => SortByAlphabet(y.Key));
             return sortedDictionary;
         }

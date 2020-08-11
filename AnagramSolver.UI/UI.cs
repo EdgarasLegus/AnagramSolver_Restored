@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AnagramSolver.Contracts;
 using AnagramSolver.Repos;
+using AnagramSolver.EF.DatabaseFirst;
+using AnagramSolver.Interfaces.DBFirst;
 
 namespace AnagramSolver.UI
 {

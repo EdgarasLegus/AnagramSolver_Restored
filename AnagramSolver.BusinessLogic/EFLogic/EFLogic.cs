@@ -6,6 +6,7 @@ using AnagramSolver.Contracts.Entities;
 using System.Linq;
 using AnagramSolver.Contracts;
 using AnagramSolver.Interfaces.DBFirst;
+using System.Runtime.CompilerServices;
 
 namespace AnagramSolver.BusinessLogic
 {
@@ -19,7 +20,7 @@ namespace AnagramSolver.BusinessLogic
 
         public List<WordEntity> SearchWords(string searchInput)
         {
-            var wordList = _context.Word.Where(x => x.Word.Contains(searchInput)).ToList();
+            var wordList = _context.Word.Where(x => x.Word1.Contains(searchInput)).ToList();
             return wordList;
         }
 
@@ -27,7 +28,8 @@ namespace AnagramSolver.BusinessLogic
         {
             var anagramList = new List<WordEntity>();
             anagrams = anagrams.ToList();
-            anagramList = _context.Word.Where(x => x.Word.Equals(anagrams)).ToList();
+            //anagramList = _context.Word.Where(x => x.Word1.Equals(anagrams)).ToList();
+            anagramList = _context.Word.Where(x => anagrams.Contains(x.Word1)).ToList();
             var anagramIdList = anagramList.Select(x => x.Id).ToList();
 
             return anagramIdList;
@@ -35,10 +37,13 @@ namespace AnagramSolver.BusinessLogic
 
         public List<string> GetCachedWords(string searchInput)
         {
-            var cachedwords = _context.CachedWord.Where(x => x.SearchWord == searchInput).ToList();
-            var cachedWordList = cachedwords.Select(x => x.SearchWord).ToList();
-
-            return cachedWordList;
+            //var cachedwords = _context.CachedWord.Where(x => x.SearchWord == searchInput).ToList();
+            //var cachedWordList = cachedwords.Select(x => x.SearchWord).ToList();
+            var cachedAnagramList = from w in _context.Word
+                                    from cw in _context.CachedWord
+                                    where (cw.SearchWord == searchInput) && (cw.AnagramWordId == w.Id)
+                                    select w.Word1;
+            return cachedAnagramList.ToList();
         }
 
         public void InsertCachedWords(string searchInput, List<int> anagramsIdList)
@@ -52,6 +57,7 @@ namespace AnagramSolver.BusinessLogic
                 };
             }
             _context.CachedWord.Add(cachedWordEntity);
+            _context.SaveChanges();
         }
 
     }

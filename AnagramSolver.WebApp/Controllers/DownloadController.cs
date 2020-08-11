@@ -15,11 +15,9 @@ namespace AnagramSolver.WebApp.Controllers
     [ApiController]
     public class DownloadController : ControllerBase
     {
-        private readonly IWordRepository _repository;
 
-        public DownloadController(IWordRepository repository)
+        public DownloadController()
         {
-            _repository = repository;
         }
 
         [HttpGet]

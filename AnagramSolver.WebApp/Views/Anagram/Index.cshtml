@@ -1,5 +1,6 @@
 ﻿@*PaginatedList<AnagramSolver.Contracts.Anagram>*@
-@model PaginatedList<AnagramSolver.Contracts.WordModel>
+@*@model PaginatedList<AnagramSolver.Contracts.WordModel>*@
+@model PaginatedList<AnagramSolver.Contracts.Entities.WordEntity>
 @{
     ViewData["Title"] = "Word List";
 }
@@ -51,8 +52,8 @@
 
 @foreach (var item in Model)
 {
-    <ul>
-        <a asp-action="WordAnagrams" asp-route-id="@item.Word">@item.Word</a>
-    </ul>
+<ul>
+    <a asp-action="WordAnagrams" asp-route-id="@item.Word1">@item.Word1</a>
+</ul>
 }
 

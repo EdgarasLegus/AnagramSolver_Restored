@@ -11,6 +11,8 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using AnagramSolver.Contracts;
 using System.Reflection;
+using AnagramSolver.Contracts.Entities;
+using AnagramSolver.EF.DatabaseFirst;
 
 namespace AnagramSolver.Tests
 {
@@ -18,13 +20,23 @@ namespace AnagramSolver.Tests
     public class AnagramSolverTests
     {
         private IAnagramSolver _anagramSolver;
-       
+        private readonly AnagramSolverDBFirstContext _context;
+        private readonly EFRepository _efRepository;
+
+        public AnagramSolverTests(AnagramSolverDBFirstContext context, EFRepository efRepository)
+        {
+            _context = context;
+            _efRepository = efRepository;
+        }
+
         [SetUp]
         public void Setup()
         {
             _anagramSolver = new BusinessLogic.AnagramSolver()
             {
-                FRepository = new FRepository()
+                //FRepository = new FRepository()
+                //DBRepository = new DBRepository()
+                EFRepository = new EFRepository(new AnagramSolverDBFirstContext())
             };
         }
 
@@ -77,7 +89,11 @@ namespace AnagramSolver.Tests
                 {"Ribentropas", "tikr." },
                 {"Atlantida", "tikr." },
                 {"14-15-tas", "sktv." }
-            }.Select(pair => new WordModel() { Word = pair.Key, Category = pair.Value}).ToList();
+
+            }.Select(pair => new WordEntity() { Word1 = pair.Key, Category = pair.Value}).ToList();
+
+            //// DB REPOSITORY
+            ////}.Select(pair => new WordModel() { Word = pair.Key, Category = pair.Value}).ToList();
 
             var expectedOutputFromGivenColumns = new Dictionary<string, string>()
             {

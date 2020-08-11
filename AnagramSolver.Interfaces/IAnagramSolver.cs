@@ -1,4 +1,5 @@
 ﻿using AnagramSolver.Contracts;
+using AnagramSolver.Contracts.Entities;
 using System;
 using System.Collections.Generic;
 
@@ -11,6 +12,10 @@ namespace AnagramSolver.Interfaces
         int CountChars(string input);
         string SortByAlphabet(string inputWord);
         //Dictionary<string, string> MakeDictionary(Dictionary<string, string> dictionary);
-        Dictionary<string, string> MakeDictionary(List<WordModel> wordModel);
+
+        //// DB REPO
+        //Dictionary<string, string> MakeDictionary(List<WordModel> wordModel);
+        //// DB FIRST
+        Dictionary<string, string> MakeDictionary(List<WordEntity> wordModel);
     }
 }

@@ -10,11 +10,14 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using AnagramSolver.Repos;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
+using AnagramSolver.EF.DatabaseFirst;
+using AnagramSolver.Interfaces.DBFirst;
 
 namespace AnagramSolver.UI
 {
     class Program
     {
+
         private static readonly IAnagramSolver _anagramSolver = new BusinessLogic.AnagramSolver();
         private static readonly IUI _userInterface = new UI();
 

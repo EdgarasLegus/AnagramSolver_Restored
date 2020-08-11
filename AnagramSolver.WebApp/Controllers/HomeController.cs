@@ -10,6 +10,7 @@ using System.Text.Encodings.Web;
 using AnagramSolver.Interfaces;
 using Microsoft.Extensions.Configuration;
 using AnagramSolver.UI;
+using AnagramSolver.Interfaces.DBFirst;
 
 namespace AnagramSolver.WebApp.Controllers
 {
@@ -17,11 +18,13 @@ namespace AnagramSolver.WebApp.Controllers
     {
         private readonly IAnagramSolver _anagramSolver;
         private readonly IDatabaseLogic _databaseLogic;
+        private readonly IEFLogic _eflogic;
 
-        public HomeController(IAnagramSolver anagramSolver, IDatabaseLogic databaseLogic)
+        public HomeController(IAnagramSolver anagramSolver, IDatabaseLogic databaseLogic, IEFLogic efLogic)
         {
            _anagramSolver = anagramSolver;
             _databaseLogic = databaseLogic;
+            _eflogic = efLogic;
         }
 
         public IActionResult Index(string id)
@@ -30,17 +33,21 @@ namespace AnagramSolver.WebApp.Controllers
             {
                 if (string.IsNullOrEmpty(id))
                     throw new Exception("Error! At least one word must be entered.");
-                var check = _databaseLogic.GetCachedWords(id);
+                ////var check = _databaseLogic.GetCachedWords(id);
+                var check = _eflogic.GetCachedWords(id);
                 if (check.Count == 0)
                 {
                     var anagrams = _anagramSolver.GetAnagrams(id);
-                    var anagramsId = _databaseLogic.GetAnagramsId(anagrams);
-                    _databaseLogic.InsertCachedWords(id, anagramsId);
+                    //var anagramsId = _databaseLogic.GetAnagramsId(anagrams);
+                    var anagramsId = _eflogic.GetAnagramsId(anagrams);
+                    //_databaseLogic.InsertCachedWords(id, anagramsId);
+                    _eflogic.InsertCachedWords(id, anagramsId);
                     return View(anagrams);
                 }
                 else
                 {
-                    var anagramsFromCache = _databaseLogic.GetCachedWords(id);
+                    //var anagramsFromCache = _databaseLogic.GetCachedWords(id);
+                    var anagramsFromCache = _eflogic.GetCachedWords(id);
                     return View(anagramsFromCache);
                 }
 

@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AnagramSolver.Contracts;
+using AnagramSolver.Contracts.Entities;
 using AnagramSolver.Interfaces;
+using AnagramSolver.Interfaces.DBFirst;
 using AnagramSolver.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,12 +17,16 @@ namespace AnagramSolver.WebApp.Controllers
         private readonly IWordRepository _repository;
         private readonly IAnagramSolver _anagramSolver;
         private readonly IDatabaseLogic _databaseLogic;
+        private readonly IEFLogic _eflogic;
+        private readonly IEFRepository _efRepository;
 
-        public AnagramController(IWordRepository repository, IAnagramSolver anagramSolver, IDatabaseLogic databaseLogic)
+        public AnagramController(IWordRepository repository, IAnagramSolver anagramSolver, IDatabaseLogic databaseLogic, IEFLogic eflogic, IEFRepository efRepository)
         {
             _repository = repository;
             _anagramSolver = anagramSolver;
             _databaseLogic = databaseLogic;
+            _eflogic = eflogic;
+            _efRepository = efRepository;
         }
 
         public IActionResult Index(int? pageIndex, string searchInput, int pageSize = 100)
@@ -29,16 +35,20 @@ namespace AnagramSolver.WebApp.Controllers
             {
                 //var wordList = _repository.GetWords().AsQueryable();
                 //return View(PaginatedList<Anagram>.CreateAsync((IQueryable<Anagram>)wordList, pageIndex ?? 1, pageSize));
-                List<WordModel> wordList;
+
+                //**//List<WordModel> wordList;
+                List<WordEntity> wordList;
 
                 if (!string.IsNullOrEmpty(searchInput))
                 {
-                    wordList = _databaseLogic.SearchWords(searchInput);
+                    //**//wordList = _databaseLogic.SearchWords(searchInput);
+                    wordList = _eflogic.SearchWords(searchInput);
                     pageSize = wordList.Count;
                 }
                 else {
-                    wordList = _repository.GetWords();
-                } 
+                    //**//wordList = _repository.GetWords();
+                    wordList = _efRepository.GetWords();
+                }
                 //wordList = _repository.GetWords()
                 //    .Select(x => new Anagram
                 //    {
@@ -48,8 +58,11 @@ namespace AnagramSolver.WebApp.Controllers
                 //    .AsQueryable();
 
                 //var paginatedList = PaginatedList<Anagram>.CreateAsync(wordList, pageIndex ?? 1, pageSize);
-                var paginatedList = PaginatedList<WordModel>.Create(wordList, pageIndex ?? 1, pageSize);
                 //var paginatedList = PaginatedList<WordModel>.Create((IQueryable<WordModel>)wordList, pageIndex ?? 1, 100);
+
+
+                //**//var paginatedList = PaginatedList<WordModel>.Create(wordList, pageIndex ?? 1, pageSize);
+                var paginatedList = PaginatedList<WordEntity>.Create(wordList, pageIndex ?? 1, pageSize);
 
                 return View(paginatedList); 
             }
