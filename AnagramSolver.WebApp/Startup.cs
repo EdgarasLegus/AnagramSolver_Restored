@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AnagramSolver.EF.CodeFirst;
 using AnagramSolver.EF.DatabaseFirst;
 using AnagramSolver.Interfaces;
 using AnagramSolver.Interfaces.DBFirst;
@@ -17,7 +18,9 @@ namespace AnagramSolver.WebApp
 {
     public class Startup
     {
-        private readonly string connectionString = "Server=LT-LIT-SC-0513;Database=AnagramSolver;" +
+        private readonly string connectionStringDbFirst = "Server=LT-LIT-SC-0513;Database=AnagramSolver;" +
+            "Integrated Security = true;Uid=auth_windows";
+        private readonly string connectionStringCodeFirst = "Server=LT-LIT-SC-0513;Database=AnagramSolver_CodeFirst;" +
             "Integrated Security = true;Uid=auth_windows";
 
         public Startup(IConfiguration configuration)
@@ -42,7 +45,8 @@ namespace AnagramSolver.WebApp
                 .AddScoped<IEFRepository, Repos.EFRepository>()
                 .AddHttpContextAccessor();
 
-            services.AddDbContext<AnagramSolverDBFirstContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<AnagramSolverDBFirstContext>(options => options.UseSqlServer(connectionStringDbFirst));
+            services.AddDbContext<AnagramSolverCodeFirstContext>(options => options.UseSqlServer(connectionStringCodeFirst));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

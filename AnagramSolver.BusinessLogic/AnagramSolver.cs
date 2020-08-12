@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AnagramSolver.Contracts;
 using AnagramSolver.Contracts.Entities;
+using AnagramSolver.EF.CodeFirst;
 using AnagramSolver.EF.DatabaseFirst;
 using AnagramSolver.Interfaces;
 using AnagramSolver.Interfaces.DBFirst;
@@ -16,7 +17,8 @@ namespace AnagramSolver.BusinessLogic
         // ar gerai nuskaitomas failas
 
         private Dictionary<string, string> _createdDictionary;
-        private readonly AnagramSolverDBFirstContext _context;
+        //private readonly AnagramSolverDBFirstContext _context;
+        private readonly AnagramSolverCodeFirstContext _context;
         private readonly IEFRepository _efRepository;
 
         public IWordRepository FRepository { get; set; }
@@ -29,8 +31,14 @@ namespace AnagramSolver.BusinessLogic
             //var repository = new FRepository();
             //var repository = new DBRepository();
 
-            var cont = new AnagramSolverDBFirstContext();
+            //var cont = new AnagramSolverDBFirstContext();
+            var cont = new AnagramSolverCodeFirstContext();
             var repository = new EFRepository(cont);
+
+            if (!cont.Word.Any())
+            {
+                repository.InsertWordTableData(repository.GetWordEntityFromFile());
+            }
 
             // 1 zingsnis --- Gauname failo pirmuosius 2 stulpelius
             var fileColumns = repository.GetWords();

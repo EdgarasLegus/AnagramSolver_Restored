@@ -16,6 +16,7 @@ namespace AnagramSolver.Tests
         IAnagramSolver anagramSolver;
         IDatabaseLogic databaseLogic;
         IEFLogic eflogic;
+        IEFRepository eFRepository;
 
         [SetUp]
         public void Setup()
@@ -26,7 +27,7 @@ namespace AnagramSolver.Tests
         public void TestIfHomeControllerIndexIsSame(string id)
         {
             //Arrange
-            var controller = new HomeController(anagramSolver, databaseLogic, eflogic);
+            var controller = new HomeController(anagramSolver, databaseLogic, eflogic, eFRepository);
             //Act
             ViewResult result = controller.Index(id) as ViewResult;
             //Assert
@@ -44,7 +45,7 @@ namespace AnagramSolver.Tests
             };
 
             anagramSolver.GetAnagrams(Arg.Any<string>()).Returns(anagramList);
-            var controller = new HomeController(anagramSolver, databaseLogic, eflogic);
+            var controller = new HomeController(anagramSolver, databaseLogic, eflogic, eFRepository);
             var result = controller.Index("kalnas");
 
             //Act

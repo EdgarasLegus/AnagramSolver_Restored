@@ -13,6 +13,7 @@ using AnagramSolver.Contracts;
 using System.Reflection;
 using AnagramSolver.Contracts.Entities;
 using AnagramSolver.EF.DatabaseFirst;
+using AnagramSolver.EF.CodeFirst;
 
 namespace AnagramSolver.Tests
 {
@@ -20,10 +21,17 @@ namespace AnagramSolver.Tests
     public class AnagramSolverTests
     {
         private IAnagramSolver _anagramSolver;
-        private readonly AnagramSolverDBFirstContext _context;
+        //private readonly AnagramSolverDBFirstContext _context;
+        private readonly AnagramSolverCodeFirstContext _context;
         private readonly EFRepository _efRepository;
 
-        public AnagramSolverTests(AnagramSolverDBFirstContext context, EFRepository efRepository)
+        //public AnagramSolverTests(AnagramSolverDBFirstContext context, EFRepository efRepository)
+        //{
+        //    _context = context;
+        //    _efRepository = efRepository;
+        //}
+
+        public AnagramSolverTests(AnagramSolverCodeFirstContext context, EFRepository efRepository)
         {
             _context = context;
             _efRepository = efRepository;
@@ -36,7 +44,8 @@ namespace AnagramSolver.Tests
             {
                 //FRepository = new FRepository()
                 //DBRepository = new DBRepository()
-                EFRepository = new EFRepository(new AnagramSolverDBFirstContext())
+                //EFRepository = new EFRepository(new AnagramSolverDBFirstContext())
+                EFRepository = new EFRepository(new AnagramSolverCodeFirstContext())
             };
         }
 

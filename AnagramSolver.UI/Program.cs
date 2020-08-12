@@ -25,7 +25,8 @@ namespace AnagramSolver.UI
         static async Task Main(string[] args)
         {
             // 1- Ar uzpildyti lentele
-            _userInterface.ToFillTable();
+            //**//DB
+            //_userInterface.ToFillTable();
 
             var minInputWordLength =  Configuration.BuilderConfigurations();
 

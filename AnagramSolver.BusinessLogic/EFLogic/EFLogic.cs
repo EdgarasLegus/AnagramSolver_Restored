@@ -7,13 +7,20 @@ using System.Linq;
 using AnagramSolver.Contracts;
 using AnagramSolver.Interfaces.DBFirst;
 using System.Runtime.CompilerServices;
+using AnagramSolver.EF.CodeFirst;
 
 namespace AnagramSolver.BusinessLogic
 {
     public class EFLogic : IEFLogic
     {
-        private readonly AnagramSolverDBFirstContext _context;
-        public EFLogic(AnagramSolverDBFirstContext context)
+        //private readonly AnagramSolverDBFirstContext _context;
+        private readonly AnagramSolverCodeFirstContext _context;
+        //public EFLogic(AnagramSolverDBFirstContext context)
+        //{
+        //    _context = context;
+        //}
+
+        public EFLogic(AnagramSolverCodeFirstContext context)
         {
             _context = context;
         }
@@ -55,8 +62,9 @@ namespace AnagramSolver.BusinessLogic
                     SearchWord = searchInput,
                     AnagramWordId = item
                 };
+                _context.CachedWord.Add(cachedWordEntity);
             }
-            _context.CachedWord.Add(cachedWordEntity);
+            //_context.CachedWord.Add(cachedWordEntity);
             _context.SaveChanges();
         }
 

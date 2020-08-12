@@ -11,6 +11,8 @@ using AnagramSolver.Interfaces;
 using Microsoft.Extensions.Configuration;
 using AnagramSolver.UI;
 using AnagramSolver.Interfaces.DBFirst;
+using AnagramSolver.EF.CodeFirst;
+using System.Reflection.Metadata.Ecma335;
 
 namespace AnagramSolver.WebApp.Controllers
 {
@@ -19,12 +21,14 @@ namespace AnagramSolver.WebApp.Controllers
         private readonly IAnagramSolver _anagramSolver;
         private readonly IDatabaseLogic _databaseLogic;
         private readonly IEFLogic _eflogic;
+        private readonly IEFRepository _eFRepository;
 
-        public HomeController(IAnagramSolver anagramSolver, IDatabaseLogic databaseLogic, IEFLogic efLogic)
+        public HomeController(IAnagramSolver anagramSolver, IDatabaseLogic databaseLogic, IEFLogic efLogic, IEFRepository eFRepository)
         {
            _anagramSolver = anagramSolver;
             _databaseLogic = databaseLogic;
             _eflogic = efLogic;
+            _eFRepository = eFRepository;
         }
 
         public IActionResult Index(string id)
@@ -33,6 +37,15 @@ namespace AnagramSolver.WebApp.Controllers
             {
                 if (string.IsNullOrEmpty(id))
                     throw new Exception("Error! At least one word must be entered.");
+
+                //Checking if CodeFirst Word table is empty
+                //var context = new AnagramSolverCodeFirstContext();
+                //if (!context.Word.Any())
+                //{
+                //    var fileColumns = _eFRepository.GetWordEntityFromFile();
+                //    _eFRepository.InsertWordTableData(fileColumns);
+                //}
+
                 ////var check = _databaseLogic.GetCachedWords(id);
                 var check = _eflogic.GetCachedWords(id);
                 if (check.Count == 0)

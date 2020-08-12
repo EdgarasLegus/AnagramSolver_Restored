@@ -6,6 +6,8 @@ namespace AnagramSolver.Contracts.Entities
 {
     public partial class UserLogEntity
     {
+        //Id nera DBFirst
+        public int Id { get; set; }
         public string UserIp { get; set; }
         public int SearchWordId { get; set; }
         public DateTime SearchTime { get; set; }
