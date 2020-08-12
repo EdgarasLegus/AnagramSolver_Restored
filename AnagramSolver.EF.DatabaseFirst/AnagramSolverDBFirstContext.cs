@@ -52,11 +52,11 @@ namespace AnagramSolver.EF.DatabaseFirst
 
                 entity.Property(e => e.UserIp).IsRequired();
 
-                entity.HasOne(d => d.SearchWord)
-                    .WithMany()
-                    .HasForeignKey(d => d.SearchWordId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__UserLog__SearchW__5535A963");
+                //entity.HasOne(d => d.SearchWord)
+                //    .WithMany()
+                //    .HasForeignKey(d => d.SearchWordId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK__UserLog__SearchW__5535A963");
             });
 
             modelBuilder.Entity<WordEntity>(entity =>

@@ -68,5 +68,17 @@ namespace AnagramSolver.BusinessLogic
             _context.SaveChanges();
         }
 
+        public void InsertUserLog(string searchInput)
+        {
+            var ip = AnagramSolver.GetIP();
+            var userLogEntity = new UserLogEntity
+            {
+                UserIp = ip,
+                SearchWord = searchInput,
+                SearchTime = DateTime.Now
+            };
+            _context.UserLog.Add(userLogEntity);
+            _context.SaveChanges();
+        }
     }
 }

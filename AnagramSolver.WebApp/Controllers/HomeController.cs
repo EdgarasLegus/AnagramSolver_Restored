@@ -47,6 +47,7 @@ namespace AnagramSolver.WebApp.Controllers
                 //}
 
                 ////var check = _databaseLogic.GetCachedWords(id);
+                _eflogic.InsertUserLog(id);
                 var check = _eflogic.GetCachedWords(id);
                 if (check.Count == 0)
                 {

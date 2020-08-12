@@ -11,5 +11,6 @@ namespace AnagramSolver.Interfaces.DBFirst
         List<int> GetAnagramsId(IEnumerable<string> anagrams);
         List<string> GetCachedWords(string searchInput);
         void InsertCachedWords(string searchInput, List<int> anagramsIdList);
+        void InsertUserLog(string searchInput);
     }
 }
