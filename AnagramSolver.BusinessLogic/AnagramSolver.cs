@@ -9,7 +9,9 @@ using AnagramSolver.EF.CodeFirst;
 using AnagramSolver.EF.DatabaseFirst;
 using AnagramSolver.Interfaces;
 using AnagramSolver.Interfaces.DBFirst;
+using AnagramSolver.Interfaces.EF;
 using AnagramSolver.Repos;
+using AnagramSolver.Repos.EF;
 
 namespace AnagramSolver.BusinessLogic
 {
@@ -21,11 +23,12 @@ namespace AnagramSolver.BusinessLogic
         private Dictionary<string, string> _createdDictionary;
         //private readonly AnagramSolverDBFirstContext _context;
         private readonly AnagramSolverCodeFirstContext _context;
-        private readonly IEFRepository _efRepository;
+
+        private readonly IEFWordRepo _efWordRepository;
 
         public IWordRepository FRepository { get; set; }
         public IWordRepository DBRepository { get; set; }
-        public IEFRepository EFRepository { get; set; }
+        public IEFWordRepo EFWordRepo { get; set; }
 
 
         public AnagramSolver()
@@ -35,7 +38,9 @@ namespace AnagramSolver.BusinessLogic
 
             //var cont = new AnagramSolverDBFirstContext();
             var cont = new AnagramSolverCodeFirstContext();
-            var repository = new EFRepository(cont);
+
+            //var repository = new EFRepository(cont);
+            var repository = new EFWordRepository(cont);
 
             if (!cont.Word.Any())
             {
@@ -98,18 +103,18 @@ namespace AnagramSolver.BusinessLogic
             return charCount;
         }
 
-        public static string GetIP()
-        {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    return ip.ToString();
-                }
-            }
-            throw new Exception("IP is not recognised!");
-        }
+        //public static string GetIP()
+        //{
+        //    var host = Dns.GetHostEntry(Dns.GetHostName());
+        //    foreach (var ip in host.AddressList)
+        //    {
+        //        if (ip.AddressFamily == AddressFamily.InterNetwork)
+        //        {
+        //            return ip.ToString();
+        //        }
+        //    }
+        //    throw new Exception("IP is not recognised!");
+        //}
 
         //222222 ----------------------
         //public Dictionary<string, string> MakeDictionary(Dictionary<string, string> dictionary)

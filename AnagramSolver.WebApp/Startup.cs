@@ -6,6 +6,7 @@ using AnagramSolver.EF.CodeFirst;
 using AnagramSolver.EF.DatabaseFirst;
 using AnagramSolver.Interfaces;
 using AnagramSolver.Interfaces.DBFirst;
+using AnagramSolver.Interfaces.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -42,7 +43,9 @@ namespace AnagramSolver.WebApp
                 .AddScoped<IDatabaseLogic, BusinessLogic.DatabaseLogic>()
                 .AddScoped<IUI, UI.UI>()
                 .AddScoped<IEFLogic, BusinessLogic.EFLogic>()
-                .AddScoped<IEFRepository, Repos.EFRepository>()
+                .AddScoped<IEFWordRepo, Repos.EF.EFWordRepository>()
+                .AddScoped<IEFUserLogRepo, Repos.EF.EFUserLogRepository>()
+                .AddScoped<IEFCachedWordRepo, Repos.EF.EFCachedWordRepository>()
                 .AddHttpContextAccessor();
 
             services.AddDbContext<AnagramSolverDBFirstContext>(options => options.UseSqlServer(connectionStringDbFirst));

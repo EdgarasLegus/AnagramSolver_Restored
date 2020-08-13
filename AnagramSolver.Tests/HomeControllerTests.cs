@@ -7,6 +7,7 @@ using System.Text;
 using NSubstitute;
 using Microsoft.AspNetCore.Mvc;
 using AnagramSolver.Interfaces.DBFirst;
+using AnagramSolver.Interfaces.EF;
 
 namespace AnagramSolver.Tests
 {
@@ -16,7 +17,10 @@ namespace AnagramSolver.Tests
         IAnagramSolver anagramSolver;
         IDatabaseLogic databaseLogic;
         IEFLogic eflogic;
-        IEFRepository eFRepository;
+
+        IEFWordRepo efWordRepository;
+        IEFUserLogRepo efUserLogRepository;
+        IEFCachedWordRepo efCachedWordRepository;
 
         [SetUp]
         public void Setup()
@@ -27,7 +31,8 @@ namespace AnagramSolver.Tests
         public void TestIfHomeControllerIndexIsSame(string id)
         {
             //Arrange
-            var controller = new HomeController(anagramSolver, databaseLogic, eflogic, eFRepository);
+            var controller = new HomeController(anagramSolver, databaseLogic, eflogic, 
+                efWordRepository, efUserLogRepository, efCachedWordRepository);
             //Act
             ViewResult result = controller.Index(id) as ViewResult;
             //Assert
@@ -45,7 +50,8 @@ namespace AnagramSolver.Tests
             };
 
             anagramSolver.GetAnagrams(Arg.Any<string>()).Returns(anagramList);
-            var controller = new HomeController(anagramSolver, databaseLogic, eflogic, eFRepository);
+            var controller = new HomeController(anagramSolver, databaseLogic, eflogic, 
+                efWordRepository, efUserLogRepository, efCachedWordRepository);
             var result = controller.Index("kalnas");
 
             //Act

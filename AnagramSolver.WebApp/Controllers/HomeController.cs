@@ -13,6 +13,7 @@ using AnagramSolver.UI;
 using AnagramSolver.Interfaces.DBFirst;
 using AnagramSolver.EF.CodeFirst;
 using System.Reflection.Metadata.Ecma335;
+using AnagramSolver.Interfaces.EF;
 
 namespace AnagramSolver.WebApp.Controllers
 {
@@ -21,14 +22,21 @@ namespace AnagramSolver.WebApp.Controllers
         private readonly IAnagramSolver _anagramSolver;
         private readonly IDatabaseLogic _databaseLogic;
         private readonly IEFLogic _eflogic;
-        private readonly IEFRepository _eFRepository;
 
-        public HomeController(IAnagramSolver anagramSolver, IDatabaseLogic databaseLogic, IEFLogic efLogic, IEFRepository eFRepository)
+        private readonly IEFWordRepo _efWordRepository;
+        private readonly IEFUserLogRepo _efUserLogRepository;
+        private readonly IEFCachedWordRepo _efCachedWordRepository;
+
+        public HomeController(IAnagramSolver anagramSolver, IDatabaseLogic databaseLogic, IEFLogic efLogic, 
+            IEFWordRepo efWordRepository, IEFUserLogRepo efUserLogRepository, IEFCachedWordRepo efCachedWordRepository)
         {
            _anagramSolver = anagramSolver;
             _databaseLogic = databaseLogic;
             _eflogic = efLogic;
-            _eFRepository = eFRepository;
+
+            _efWordRepository = efWordRepository;
+            _efUserLogRepository = efUserLogRepository;
+            _efCachedWordRepository = efCachedWordRepository;
         }
 
         public IActionResult Index(string id)
@@ -47,21 +55,21 @@ namespace AnagramSolver.WebApp.Controllers
                 //}
 
                 ////var check = _databaseLogic.GetCachedWords(id);
-                _eflogic.InsertUserLog(id);
-                var check = _eflogic.GetCachedWords(id);
+                _efUserLogRepository.InsertUserLog(id);
+                var check = _efCachedWordRepository.GetCachedWords(id);
                 if (check.Count == 0)
                 {
                     var anagrams = _anagramSolver.GetAnagrams(id);
                     //var anagramsId = _databaseLogic.GetAnagramsId(anagrams);
-                    var anagramsId = _eflogic.GetAnagramsId(anagrams);
+                    var anagramsId = _efWordRepository.GetAnagramsId(anagrams);
                     //_databaseLogic.InsertCachedWords(id, anagramsId);
-                    _eflogic.InsertCachedWords(id, anagramsId);
+                    _efCachedWordRepository.InsertCachedWords(id, anagramsId);
                     return View(anagrams);
                 }
                 else
                 {
                     //var anagramsFromCache = _databaseLogic.GetCachedWords(id);
-                    var anagramsFromCache = _eflogic.GetCachedWords(id);
+                    var anagramsFromCache = _efCachedWordRepository.GetCachedWords(id);
                     return View(anagramsFromCache);
                 }
 

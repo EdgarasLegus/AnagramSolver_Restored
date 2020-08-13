@@ -7,6 +7,7 @@ using AnagramSolver.Contracts;
 using AnagramSolver.Contracts.Entities;
 using AnagramSolver.Interfaces;
 using AnagramSolver.Interfaces.DBFirst;
+using AnagramSolver.Interfaces.EF;
 using AnagramSolver.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,15 +19,15 @@ namespace AnagramSolver.WebApp.Controllers
         private readonly IAnagramSolver _anagramSolver;
         private readonly IDatabaseLogic _databaseLogic;
         private readonly IEFLogic _eflogic;
-        private readonly IEFRepository _efRepository;
+        private readonly IEFWordRepo _efWordRepository;
 
-        public AnagramController(IWordRepository repository, IAnagramSolver anagramSolver, IDatabaseLogic databaseLogic, IEFLogic eflogic, IEFRepository efRepository)
+        public AnagramController(IWordRepository repository, IAnagramSolver anagramSolver, IDatabaseLogic databaseLogic, IEFLogic eflogic, IEFWordRepo efWordRepository)
         {
             _repository = repository;
             _anagramSolver = anagramSolver;
             _databaseLogic = databaseLogic;
             _eflogic = eflogic;
-            _efRepository = efRepository;
+            _efWordRepository = efWordRepository;
         }
 
         public IActionResult Index(int? pageIndex, string searchInput, int pageSize = 100)
@@ -42,12 +43,14 @@ namespace AnagramSolver.WebApp.Controllers
                 if (!string.IsNullOrEmpty(searchInput))
                 {
                     //**//wordList = _databaseLogic.SearchWords(searchInput);
-                    wordList = _eflogic.SearchWords(searchInput);
+                    //#//wordList = _eflogic.SearchWords(searchInput);
+                    wordList = _efWordRepository.SearchWords(searchInput);
                     pageSize = wordList.Count;
                 }
                 else {
                     //**//wordList = _repository.GetWords();
-                    wordList = _efRepository.GetWords();
+                    //#//wordList = _efRepository.GetWords();
+                    wordList = _efWordRepository.GetWords();
                 }
                 //wordList = _repository.GetWords()
                 //    .Select(x => new Anagram

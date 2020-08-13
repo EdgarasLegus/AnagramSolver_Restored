@@ -1,17 +1,17 @@
-﻿using System;
+﻿using AnagramSolver.Contracts.Entities;
+using AnagramSolver.EF.CodeFirst;
+using AnagramSolver.EF.DatabaseFirst;
+using AnagramSolver.Interfaces.EF;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using AnagramSolver.Contracts.Entities;
-using AnagramSolver.EF.DatabaseFirst;
-using AnagramSolver.Interfaces.DBFirst;
-using AnagramSolver.EF.CodeFirst;
-using Microsoft.Extensions.Configuration;
-using System.IO;
 
-namespace AnagramSolver.Repos
+namespace AnagramSolver.Repos.EF
 {
-    public class EFRepository : IEFRepository
+    public class EFWordRepository : IEFWordRepo
     {
         //private readonly AnagramSolverDBFirstContext _context;
         private readonly AnagramSolverCodeFirstContext _context;
@@ -21,7 +21,7 @@ namespace AnagramSolver.Repos
         //    _context = context;
         //}
 
-        public EFRepository(AnagramSolverCodeFirstContext context)
+        public EFWordRepository(AnagramSolverCodeFirstContext context)
         {
             _context = context;
         }
@@ -30,6 +30,23 @@ namespace AnagramSolver.Repos
         {
             var wordModelList = _context.Word.ToList();
             return wordModelList;
+        }
+
+        public List<WordEntity> SearchWords(string searchInput)
+        {
+            var wordList = _context.Word.Where(x => x.Word1.Contains(searchInput)).ToList();
+            return wordList;
+        }
+
+        public List<int> GetAnagramsId(IEnumerable<string> anagrams)
+        {
+            var anagramList = new List<WordEntity>();
+            anagrams = anagrams.ToList();
+            //anagramList = _context.Word.Where(x => x.Word1.Equals(anagrams)).ToList();
+            anagramList = _context.Word.Where(x => anagrams.Contains(x.Word1)).ToList();
+            var anagramIdList = anagramList.Select(x => x.Id).ToList();
+
+            return anagramIdList;
         }
 
         // CODE FIRST
@@ -88,37 +105,11 @@ namespace AnagramSolver.Repos
                     Word1 = item.Word1,
                     Category = item.Category
                 };
-               _context.Word.Add(wordEntity);
-               _context.SaveChanges();
+                _context.Word.Add(wordEntity);
+                _context.SaveChanges();
             }
             //_context.Word.Add(wordEntity);
             //_context.SaveChanges();
         }
-
-        //public void InsertWordTableData(List<WordEntity> fileColumns)
-        //{
-        //    var wordEntity = new List<WordEntity>();
-        //    var wordEntityId = fileColumns.Select(x => x.Id).ToList();
-        //    var wordEntityWord = fileColumns.Select(x => x.Word1).ToList();
-        //    var wordEntityCategory = fileColumns.Select(x => x.Category).ToList();
-        //    wordEntity.ForEach(x => {x.Id = wordEntityId)
-
-        //    var entity = new List<WordEntity>();
-        //    foreach (var item in fileColumns)
-        //    {
-        //        var wordEntity = new WordEntity
-        //        {
-        //            Id = item.Id,
-        //            Word1 = item.Word1,
-        //            Category = item.Category
-        //        };
-        //        _context.Word.Add(wordEntity);
-        //        //_context.SaveChanges();
-        //    }
-        //    _context.Word.Add(entity);
-        //    _context.SaveChanges();
-        //}
-
-
     }
 }

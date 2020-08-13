@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AnagramSolver.Interfaces.DBFirst
+namespace AnagramSolver.Interfaces.EF
 {
-    public interface IEFRepository
+    public interface IEFWordRepo
     {
         List<WordEntity> GetWords();
-        //CODE FIRST METHOD
+        List<WordEntity> SearchWords(string searchInput);
+        List<int> GetAnagramsId(IEnumerable<string> anagrams);
         List<WordEntity> GetWordEntityFromFile();
-        //CODE FIRST METHOD
         void InsertWordTableData(List<WordEntity> fileColumns);
     }
 }
