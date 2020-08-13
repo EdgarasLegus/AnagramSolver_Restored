@@ -7,8 +7,8 @@ namespace AnagramSolver.EF.DatabaseFirst
 {
     public partial class AnagramSolverDBFirstContext : DbContext
     {
-        private readonly string connectionString = "Server=LT-LIT-SC-0513;Database=AnagramSolver;" +
-            "Integrated Security = true;Uid=auth_windows";
+        //private readonly string connectionString = "Server=LT-LIT-SC-0513;Database=AnagramSolver;" +
+          //  "Integrated Security = true;Uid=auth_windows";
 
         public AnagramSolverDBFirstContext()
         {
@@ -27,7 +27,7 @@ namespace AnagramSolver.EF.DatabaseFirst
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(connectionString);
+                optionsBuilder.UseSqlServer(Contracts.Settings.GetSettingsConnectionStringDBFirst());
             }
         }
 

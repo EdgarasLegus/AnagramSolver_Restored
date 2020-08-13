@@ -106,10 +106,10 @@ namespace AnagramSolver.Repos.EF
                     Category = item.Category
                 };
                 _context.Word.Add(wordEntity);
-                _context.SaveChanges();
+                //_context.SaveChanges();
             }
             //_context.Word.Add(wordEntity);
-            //_context.SaveChanges();
+            _context.SaveChanges();
         }
     }
 }

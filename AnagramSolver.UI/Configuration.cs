@@ -30,12 +30,21 @@ namespace AnagramSolver.UI
             return FileName;
         }
 
-        public static string GetConnectionString()
+        public static string GetConnectionStringDBFirst()
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile(@"./appsettings.json")
                 .Build();
-            var connectionString = configuration["ConnectionProperties:ConnectionString"];
+            var connectionString = configuration["ConnectionProperties:ConnectionStringDBFirst"];
+            return connectionString;
+        }
+
+        public static string GetConnectionStringCodeFirst()
+        {
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile(@"./appsettings.json")
+                .Build();
+            var connectionString = configuration["ConnectionProperties:ConnectionStringCodeFirst"];
             return connectionString;
         }
     }
