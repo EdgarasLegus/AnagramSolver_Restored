@@ -12,7 +12,6 @@ using Microsoft.Extensions.Configuration;
 using AnagramSolver.UI;
 using AnagramSolver.Interfaces.DBFirst;
 using AnagramSolver.EF.CodeFirst;
-using System.Reflection.Metadata.Ecma335;
 using AnagramSolver.Interfaces.EF;
 
 namespace AnagramSolver.WebApp.Controllers
@@ -46,13 +45,9 @@ namespace AnagramSolver.WebApp.Controllers
                 if (string.IsNullOrEmpty(id))
                     throw new Exception("Error! At least one word must be entered.");
 
-                //Checking if CodeFirst Word table is empty
-                //var context = new AnagramSolverCodeFirstContext();
-                //if (!context.Word.Any())
-                //{
-                //    var fileColumns = _eFRepository.GetWordEntityFromFile();
-                //    _eFRepository.InsertWordTableData(fileColumns);
-                //}
+                //if (_efUserLogRepository.CheckUserLogIp() > Contracts.Settings.GetSettingsMaxSearchesForIP())
+                    //throw new Exception("Limit of searches was exceeded!");
+                    
 
                 ////var check = _databaseLogic.GetCachedWords(id);
                 _efUserLogRepository.InsertUserLog(id);
@@ -91,6 +86,13 @@ namespace AnagramSolver.WebApp.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult DisplayMessage(string message)
+        {
+            if (_efUserLogRepository.CheckUserLogIp() > Contracts.Settings.GetSettingsMaxSearchesForIP())
+                return View(message);
+            return RedirectToAction("Index");
         }
     }
 }

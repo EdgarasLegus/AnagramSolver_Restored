@@ -2,6 +2,9 @@
 @{
     ViewData["Title"] = "Anagram Solver application";
 }
+@{ 
+    var message = "Limit of searches was exceeded!";
+}
 
 <h1><u>Anagram Solver</u></h1>
 <br />
@@ -27,6 +30,11 @@
     <p><u>Result:</u></p>
     @foreach (var item in Model)
     {
+        @*<a asp-action="DisplayMessage" href="/HomeContoller/DisplayMessage?message=">"Limit of searches was exceeded!"</a>*@
+        @*<a href="/HomeContoller/DisplayMessage?message=@message"></a>*@
+        @*<ul>
+            <li>@item</li>
+        </ul>*@
         if (item.Any(x => !char.IsLetter(x)))
         {
             <p>No results!</p>
@@ -66,8 +74,9 @@
         overflow: hidden;
         cursor: pointer;
     }
-    #button-3:hover {
-        color: #2D3142;
-        background: #DF9924;
-    }
+
+        #button-3:hover {
+            color: #2D3142;
+            background: #DF9924;
+        }
 </style>

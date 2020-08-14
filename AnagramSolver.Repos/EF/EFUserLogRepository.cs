@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AnagramSolver.Interfaces.EF;
+using System.Linq;
+using AnagramSolver.Contracts;
 
 namespace AnagramSolver.Repos.EF
 {
@@ -37,6 +39,13 @@ namespace AnagramSolver.Repos.EF
             };
             _context.UserLog.Add(userLogEntity);
             _context.SaveChanges();
+        }
+
+        public int CheckUserLogIp()
+        {
+            var ip = _efLogic.GetIP();
+            var check = _context.UserLog.Where(x => x.UserIp == ip).Select(x => x.UserIp).Count();
+            return check;
         }
     }
 }
