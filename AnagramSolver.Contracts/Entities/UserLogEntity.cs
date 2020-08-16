@@ -14,6 +14,8 @@ namespace AnagramSolver.Contracts.Entities
         public string SearchWord { get; set; }
         public DateTime SearchTime { get; set; }
 
+        public string UserAction { get; set; }
+
         //Nuimam sita irgi
         //public virtual CachedWordEntity SearchWord { get; set; }
     }

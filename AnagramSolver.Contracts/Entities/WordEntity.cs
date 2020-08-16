@@ -1,5 +1,9 @@
-﻿using System;
+﻿//using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.Collections.Generic;
+//using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace AnagramSolver.Contracts.Entities
@@ -17,6 +21,7 @@ namespace AnagramSolver.Contracts.Entities
 
         public virtual ICollection<CachedWordEntity> CachedWord { get; set; }
     }
+
     //public class WordEntity
     //{
     //    public int Id { get; set; }

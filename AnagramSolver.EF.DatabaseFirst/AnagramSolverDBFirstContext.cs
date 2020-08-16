@@ -50,6 +50,11 @@ namespace AnagramSolver.EF.DatabaseFirst
 
                 entity.Property(e => e.SearchTime).HasColumnType("datetime");
 
+                entity.Property(e => e.UserAction)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .HasDefaultValueSql("('')");
+
                 entity.Property(e => e.UserIp).IsRequired();
 
                 //entity.HasOne(d => d.SearchWord)
@@ -61,6 +66,9 @@ namespace AnagramSolver.EF.DatabaseFirst
 
             modelBuilder.Entity<WordEntity>(entity =>
             {
+                entity.HasIndex(e => e.Word1)
+                    .HasName("IX_Word");
+
                 entity.Property(e => e.Category)
                     .IsRequired()
                     .HasMaxLength(255);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AnagramSolver.Contracts.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,7 +7,7 @@ namespace AnagramSolver.Interfaces.EF
 {
     public interface IEFUserLogRepo
     {
-        void InsertUserLog(string searchInput, string ip);
-        int CheckUserLogIp(string ip);
+        void InsertUserLog(string word, string ip, UserAction userAction);
+        int CheckUserLogActions(string ip, UserAction userAction);
     }
 }

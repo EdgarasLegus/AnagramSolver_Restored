@@ -15,6 +15,7 @@ using AnagramSolver.EF.CodeFirst;
 using AnagramSolver.Interfaces.EF;
 using System.Net;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using AnagramSolver.Contracts.Enums;
 
 namespace AnagramSolver.WebApp.Controllers
 {
@@ -40,11 +41,11 @@ namespace AnagramSolver.WebApp.Controllers
             _efCachedWordRepository = efCachedWordRepository;
         }
 
-        public IActionResult Index(string id)
+        public IActionResult Index(string word)
         {
             try
             {
-                if (string.IsNullOrEmpty(id))
+                if (string.IsNullOrEmpty(word))
                     throw new Exception("Error! At least one word must be entered.");
 
                 var ip = HttpContext.Connection.RemoteIpAddress.ToString();
@@ -52,28 +53,28 @@ namespace AnagramSolver.WebApp.Controllers
 
                 if (validationCheck != "ok")
                 {
-                    ViewBag.Message = "Limit of searches was exceeded! In order to have more searches, check this page:";
+                    ViewBag.Message = "Limit of searches was exceeded! In order to have more searches, add these pages:";
                     return View();
                 }
                 else
                 {
-                    _efUserLogRepository.InsertUserLog(id, ip);
+                    _efUserLogRepository.InsertUserLog(word, ip, UserAction.Search);
                     ////var check = _databaseLogic.GetCachedWords(id);
-                    var check = _efCachedWordRepository.GetCachedWords(id);
+                    var check = _efCachedWordRepository.GetCachedWords(word);
 
                     if (check.Count == 0)
                     {
-                        var anagrams = _anagramSolver.GetAnagrams(id);
+                        var anagrams = _anagramSolver.GetAnagrams(word);
                         //var anagramsId = _databaseLogic.GetAnagramsId(anagrams);
                         var anagramsId = _efWordRepository.GetAnagramsId(anagrams);
                         //_databaseLogic.InsertCachedWords(id, anagramsId);
-                        _efCachedWordRepository.InsertCachedWords(id, anagramsId);
+                        _efCachedWordRepository.InsertCachedWords(word, anagramsId);
                         return View(anagrams);
                     }
                     else
                     {
                         //var anagramsFromCache = _databaseLogic.GetCachedWords(id);
-                        var anagramsFromCache = _efCachedWordRepository.GetCachedWords(id);
+                        var anagramsFromCache = _efCachedWordRepository.GetCachedWords(word);
                         return View(anagramsFromCache);
                     }
                 }
@@ -82,7 +83,7 @@ namespace AnagramSolver.WebApp.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return View(id);
+                return View(word);
             }
         }
 
@@ -106,7 +107,10 @@ namespace AnagramSolver.WebApp.Controllers
             {
                 var word = additionModel.DictionaryWord;
                 var category = additionModel.DictionaryCategory;
+                var ip = HttpContext.Connection.RemoteIpAddress.ToString();
+
                 _efWordRepository.InsertAdditionalWord(word, category);
+                _efUserLogRepository.InsertUserLog(word, ip, UserAction.Add);
                 ViewBag.Message = "New word added successfully! +1 search is added";
                 return View();
             }
@@ -115,9 +119,11 @@ namespace AnagramSolver.WebApp.Controllers
 
         private string CheckSearchValidation(string ip)
         {
-            var ipCount = _efUserLogRepository.CheckUserLogIp(ip);
+            var ipCountSearch = _efUserLogRepository.CheckUserLogActions(ip, UserAction.Search);
+            var ipCountAdd = _efUserLogRepository.CheckUserLogActions(ip, UserAction.Add);
+
             var maxSearchesForIP = Contracts.Settings.GetSettingsMaxSearchesForIP();
-            if (ipCount > maxSearchesForIP)
+            if (ipCountSearch-ipCountAdd > maxSearchesForIP)
             {
                 var validation = "failed";
                 return validation;
