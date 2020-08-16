@@ -6,7 +6,7 @@ namespace AnagramSolver.Interfaces.EF
 {
     public interface IEFUserLogRepo
     {
-        void InsertUserLog(string searchInput);
-        int CheckUserLogIp();
+        void InsertUserLog(string searchInput, string ip);
+        int CheckUserLogIp(string ip);
     }
 }

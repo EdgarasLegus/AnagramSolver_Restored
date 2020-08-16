@@ -13,6 +13,8 @@ using AnagramSolver.UI;
 using AnagramSolver.Interfaces.DBFirst;
 using AnagramSolver.EF.CodeFirst;
 using AnagramSolver.Interfaces.EF;
+using System.Net;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace AnagramSolver.WebApp.Controllers
 {
@@ -45,29 +47,36 @@ namespace AnagramSolver.WebApp.Controllers
                 if (string.IsNullOrEmpty(id))
                     throw new Exception("Error! At least one word must be entered.");
 
-                //if (_efUserLogRepository.CheckUserLogIp() > Contracts.Settings.GetSettingsMaxSearchesForIP())
-                    //throw new Exception("Limit of searches was exceeded!");
-                    
+                var ip = HttpContext.Connection.RemoteIpAddress.ToString();
+                var validationCheck = CheckSearchValidation(ip);
 
-                ////var check = _databaseLogic.GetCachedWords(id);
-                _efUserLogRepository.InsertUserLog(id);
-                var check = _efCachedWordRepository.GetCachedWords(id);
-                if (check.Count == 0)
+                if (validationCheck != "ok")
                 {
-                    var anagrams = _anagramSolver.GetAnagrams(id);
-                    //var anagramsId = _databaseLogic.GetAnagramsId(anagrams);
-                    var anagramsId = _efWordRepository.GetAnagramsId(anagrams);
-                    //_databaseLogic.InsertCachedWords(id, anagramsId);
-                    _efCachedWordRepository.InsertCachedWords(id, anagramsId);
-                    return View(anagrams);
+                    ViewBag.Message = "Limit of searches was exceeded! In order to have more searches, check this page:";
+                    return View();
                 }
                 else
                 {
-                    //var anagramsFromCache = _databaseLogic.GetCachedWords(id);
-                    var anagramsFromCache = _efCachedWordRepository.GetCachedWords(id);
-                    return View(anagramsFromCache);
-                }
+                    _efUserLogRepository.InsertUserLog(id, ip);
+                    ////var check = _databaseLogic.GetCachedWords(id);
+                    var check = _efCachedWordRepository.GetCachedWords(id);
 
+                    if (check.Count == 0)
+                    {
+                        var anagrams = _anagramSolver.GetAnagrams(id);
+                        //var anagramsId = _databaseLogic.GetAnagramsId(anagrams);
+                        var anagramsId = _efWordRepository.GetAnagramsId(anagrams);
+                        //_databaseLogic.InsertCachedWords(id, anagramsId);
+                        _efCachedWordRepository.InsertCachedWords(id, anagramsId);
+                        return View(anagrams);
+                    }
+                    else
+                    {
+                        //var anagramsFromCache = _databaseLogic.GetCachedWords(id);
+                        var anagramsFromCache = _efCachedWordRepository.GetCachedWords(id);
+                        return View(anagramsFromCache);
+                    }
+                }
                 //return View(anagrams);
             }
             catch (Exception ex)
@@ -88,11 +97,37 @@ namespace AnagramSolver.WebApp.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult DisplayMessage(string message)
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DictionaryAdditionForm([Bind("DictionaryWord, DictionaryCategory")] WordAdditionModel additionModel)
         {
-            if (_efUserLogRepository.CheckUserLogIp() > Contracts.Settings.GetSettingsMaxSearchesForIP())
-                return View(message);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                var word = additionModel.DictionaryWord;
+                var category = additionModel.DictionaryCategory;
+                _efWordRepository.InsertAdditionalWord(word, category);
+                ViewBag.Message = "New word added successfully! +1 search is added";
+                return View();
+            }
+            return View();
         }
+
+        private string CheckSearchValidation(string ip)
+        {
+            var ipCount = _efUserLogRepository.CheckUserLogIp(ip);
+            var maxSearchesForIP = Contracts.Settings.GetSettingsMaxSearchesForIP();
+            if (ipCount > maxSearchesForIP)
+            {
+                var validation = "failed";
+                return validation;
+            }
+            else
+            {
+                var validation = "ok";
+                return validation;
+            }
+        }
+
     }
 }

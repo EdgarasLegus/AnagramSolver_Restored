@@ -111,5 +111,16 @@ namespace AnagramSolver.Repos.EF
             //_context.Word.Add(wordEntity);
             _context.SaveChanges();
         }
+
+        public void InsertAdditionalWord(string word, string category)
+        {
+            var additionalWord = new WordEntity
+            {
+                Word1 = word,
+                Category = category
+            };
+            _context.Word.Add(additionalWord);
+            _context.SaveChanges();
+        }
     }
 }

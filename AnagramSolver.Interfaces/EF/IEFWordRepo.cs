@@ -12,5 +12,6 @@ namespace AnagramSolver.Interfaces.EF
         List<int> GetAnagramsId(IEnumerable<string> anagrams);
         List<WordEntity> GetWordEntityFromFile();
         void InsertWordTableData(List<WordEntity> fileColumns);
+        void InsertAdditionalWord(string word, string category);
     }
 }

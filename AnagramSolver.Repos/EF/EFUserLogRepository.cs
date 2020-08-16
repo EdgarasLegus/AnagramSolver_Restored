@@ -8,6 +8,7 @@ using System.Text;
 using AnagramSolver.Interfaces.EF;
 using System.Linq;
 using AnagramSolver.Contracts;
+using Microsoft.AspNetCore.Http;
 
 namespace AnagramSolver.Repos.EF
 {
@@ -28,9 +29,9 @@ namespace AnagramSolver.Repos.EF
             _efLogic = efLogic;
         }
 
-        public void InsertUserLog(string searchInput)
+        public void InsertUserLog(string searchInput, string ip)
         {
-            var ip = _efLogic.GetIP();
+            //var ip = _efLogic.GetIP();
             var userLogEntity = new UserLogEntity
             {
                 UserIp = ip,
@@ -41,9 +42,8 @@ namespace AnagramSolver.Repos.EF
             _context.SaveChanges();
         }
 
-        public int CheckUserLogIp()
+        public int CheckUserLogIp(string ip)
         {
-            var ip = _efLogic.GetIP();
             var check = _context.UserLog.Where(x => x.UserIp == ip).Select(x => x.UserIp).Count();
             return check;
         }

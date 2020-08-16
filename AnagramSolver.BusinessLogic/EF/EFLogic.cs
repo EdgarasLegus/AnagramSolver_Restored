@@ -10,6 +10,10 @@ using System.Runtime.CompilerServices;
 using AnagramSolver.EF.CodeFirst;
 using System.Net;
 using System.Net.Sockets;
+using System.Net.NetworkInformation;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
+using System.Web;
 
 namespace AnagramSolver.BusinessLogic
 {
@@ -26,6 +30,13 @@ namespace AnagramSolver.BusinessLogic
                 }
             }
             throw new Exception("IP is not recognised!");
+            //string strHostName = "";
+            //IPHostEntry ipEntry = Dns.GetHostEntry(strHostName);
+            //var addr = ipEntry.AddressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork);
+            //var myIP = addr.First().ToString();
+
+            //var myIP = HttpContext.Features.Get<IHttpConnectionFeature>()?.RemoteIpAddress;
+            //return myIP;
         }
     }
 }

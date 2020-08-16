@@ -2,9 +2,6 @@
 @{
     ViewData["Title"] = "Anagram Solver application";
 }
-@{ 
-    var message = "Limit of searches was exceeded!";
-}
 
 <h1><u>Anagram Solver</u></h1>
 <br />
@@ -30,20 +27,26 @@
     <p><u>Result:</u></p>
     @foreach (var item in Model)
     {
-        @*<a asp-action="DisplayMessage" href="/HomeContoller/DisplayMessage?message=">"Limit of searches was exceeded!"</a>*@
-        @*<a href="/HomeContoller/DisplayMessage?message=@message"></a>*@
-        @*<ul>
-            <li>@item</li>
-        </ul>*@
         if (item.Any(x => !char.IsLetter(x)))
         {
             <p>No results!</p>
         }
-        else {
+        else
+        {
             <ul>
                 <li>@item</li>
             </ul>
         }
+    }
+}
+else
+{
+    <p style="color:red">@ViewBag.Message</p>
+    if (ViewBag.Message != null)
+    {
+        <form asp-action="DictionaryAdditionForm">
+            <button type="submit" class="button" id="button-3">Go to page</button>
+        </form>
     }
 }
 
